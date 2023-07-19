@@ -2,42 +2,28 @@ package logic
 
 import (
 	"context"
-	"log"
 	"database/sql"
+	"log"
+	"time"
+
 	_ "github.com/lib/pq"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type Server struct {
 	TransactionServiceServer
 }
 
-var transactions = []*TransactionResponse{
-	{
-		Id:    1,
-		CustomerId:  1,
-		ProductId:  55,
-		Price: 93,
-		Quantity: 12,
-		// CreatedAt: time.Now(),
-	},
-	{
-		Id:    3,
-		CustomerId:  2,
-		ProductId:  55,
-		Price: 93,
-		Quantity: 12,
-		// CreatedAt: now.Unix(),
-	},
-}
 
-const connStr = "postgres://root:@localhost:26260/GoSalesStream?sslmode=disable"
+const connStr = "postgres://root:@localhost:26260/GoSalesStream?sslmode=disable&parseTime=true"
 var db, err = sql.Open("postgres", connStr)
 func (s *Server) GetTransactions(ctx context.Context, in *TransactionsRequest) (*TransactionsResponse, error){
 	if err != nil {
 		log.Fatal(err)
 	}
 	var trans []*TransactionResponse
-	rows, err := db.Query("SELECT id, customer_id, product_id, price, quantity FROM transactions ")
+	var created time.Time
+	rows, err := db.Query("SELECT id, customer_id, product_id, price, quantity, created_at FROM transactions ")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -45,12 +31,17 @@ func (s *Server) GetTransactions(ctx context.Context, in *TransactionsRequest) (
 	for rows.Next(){
 		transaction := TransactionResponse{}
 		err = rows.Scan(&transaction.Id, &transaction.CustomerId, &transaction.ProductId,
-		&transaction.Price, &transaction.Quantity)
+		&transaction.Price, &transaction.Quantity, &created )
 		if err != nil {
 			return nil, err
 		}
-		trans = append(trans, &transaction)
-
+		trans = append(trans, &TransactionResponse{
+			Id: transaction.Id,
+			CustomerId: transaction.CustomerId, 
+			ProductId: transaction.ProductId, 
+			Price: transaction.Price, 
+			Quantity: transaction.Quantity, 
+			CreatedAt: timestamppb.New(created)})
 	}
 
 

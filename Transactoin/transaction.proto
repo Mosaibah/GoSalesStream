@@ -1,7 +1,7 @@
 syntax = "proto3";
 package transaction;
 option go_package = "./logic";
-// import "google/protobuf/timestamp.proto";
+import "google/protobuf/timestamp.proto";
 
 
 // GetTransactions
@@ -13,7 +13,7 @@ message TransactionResponse {
 	int32 product_id = 3;
 	int32 price = 4;
 	int32 quantity = 5;
-    // google.protobuf.Timestamp created_at = 6;
+    google.protobuf.Timestamp created_at = 6;
 }
 
 message TransactionsResponse {
