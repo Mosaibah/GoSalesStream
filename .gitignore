@@ -1,0 +1,99 @@
+# Created by https://www.toptal.com/developers/gitignore/api/go
+# Edit at https://www.toptal.com/developers/gitignore?templates=go
+
+### Go ###
+# If you prefer the allow list template instead of the deny list, see community template:
+# https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
+#
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# Go workspace file
+go.work
+*.log
+node1/
+node1/logs/
+# End of https://www.toptal.com/developers/gitignore/api/go
+
+node1/logs/*.log
+node1/*.log
+node1/*/*   
+
+# Editor or environment-specific entries should not be committed to the
+# repository but can be kept in git's global configuration:
+#
+# https://help.github.com/articles/ignoring-files/#create-a-global-gitignore
+#
+# For advice on what entries to include in your global gitignore, please see
+# GitHub's gitignore repository, which contains an excellent set of entries for
+# many different editing tools:
+#
+# https://github.com/github/gitignore/tree/master/Global
+
+artifacts
+/bin
+/bin.*
+/lib
+/lib.*
+/tmp
+.buildinfo
+# cockroach-data, cockroach{,.race}-{darwin,linux,windows}-*
+/cockroach*
+/certs
+# make stress, acceptance produce stress.test, acceptance.test
+*.test*
+# fuzz tests
+work-Fuzz*
+*-fuzz.zip
+/vendor
+# vendoring by `go mod vendor` may produce this file temporarily
+/.vendor.tmp.*
+# The Observability Service binary.
+/obsservice
+
+# Instrumentation artifacts.
+/instrument*
+.instrumentor_exclusions.tmp
+
+# Custom or private env vars (e.g. internal keys, access tokens, etc).
+customenv.mk
+
+# Generated files containing include paths.
+zcgo_flags*.go
+build/Railroad.jar
+
+# Bazel generated symlinks
+/_bazel
+
+# Per-user .bazelrc
+/.bazelrc.user
+
+# Local disk buffers for "roachprod logs" command
+/*.logs
+
+# Generated code.
+*.pb.go
+*.pb.gw.go
+pkg/roachprod/vm/aws/embedded.go
+pkg/security/securitytest/embedded.go
+pkg/ccl/kvccl/kvtenantccl/upgradeinterlockccl/generated_test.go
+pkg/ccl/backupccl/data_driven_generated_test.go
+pkg/ccl/backupccl/restore_memory_monitoring_generated_test.go
+pkg/ccl/backupccl/restore_entry_cover_generated_test.go
+pkg/ccl/backupccl/restore_mid_schema_change_generated_test.go
+
+# Temporary directories during gomock generate
+**/gomock_reflect_*
