@@ -4,9 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"log"
-	// "time"
 	_ "github.com/lib/pq"
-	// "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type Server struct {
@@ -48,4 +46,28 @@ func (s *Server) GetSalesByProduct(ctx context.Context, in *SalesByProductReques
 	}
 	
 	return &res, nil
+}
+
+func (s *Server) GetTop5Customers(ctx context.Context, in *Top5CustomersRequest) (*Top5CustomersResponse, error){
+	if err != nil {
+		log.Fatal(err)
+	}
+	var customers []*Customer
+	rows, err := db.Query("SELECT customer_id, SUM(price) FROM transactions GROUP BY customer_id ORDER BY SUM(price) desc LIMIT 5")
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(rows)
+	for rows.Next(){
+		customer := Customer{}
+		err = rows.Scan(&customer.CustomerId, &customer.TotalSpent)
+		if err != nil {
+			return nil, err
+		}
+		customers = append(customers, &customer)
+	}
+
+	log.Printf("Log, log")
+
+	return &Top5CustomersResponse{Customer: customers}, nil
 }

@@ -8,7 +8,6 @@ option go_package = "./logic";
 message TotalSales {
 	int32 TotalSales = 1;
 }
-
 message TotalSalesRequest {}
 
 // GetSalesByProduct 
@@ -21,8 +20,20 @@ message SalesByProductResponse {
   int32 TotalSales = 2;
 }
 
+// GetTop5Customers 
+message Top5CustomersRequest {}
+message Customer {
+  int32 CustomerId = 1;
+  int32 TotalSpent = 2;
+}
+
+message Top5CustomersResponse {
+  repeated Customer customer = 1;
+}
+
 
 service AnalyticsService {
   rpc GetTotalSales (TotalSalesRequest) returns (TotalSales) {}
   rpc GetSalesByProduct (SalesByProductRequest) returns (SalesByProductResponse) {}
+  rpc GetTop5Customers (Top5CustomersRequest) returns (Top5CustomersResponse) {}
 }
