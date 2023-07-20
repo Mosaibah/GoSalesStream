@@ -31,3 +31,21 @@ func (s *Server) GetTotalSales(ctx context.Context, in *TotalSalesRequest) (*Tot
 	
 	return &totalSales, nil
 }
+
+func (s *Server) GetSalesByProduct(ctx context.Context, in *SalesByProductRequest) (*SalesByProductResponse, error){
+	var res SalesByProductResponse
+	res.ProductId = in.ProductId
+	query := "SELECT SUM(price) FROM transactions where product_id = $1"
+	err := db.QueryRow(query, in.ProductId).Scan(&res.TotalSales)
+	switch {
+		case err == sql.ErrNoRows:
+			log.Printf("no transaction  %d\n")
+		case err != nil:
+			log.Printf("query error: %v\n", err)
+			return nil, err
+		default:
+			log.Print("Log, log")
+	}
+	
+	return &res, nil
+}

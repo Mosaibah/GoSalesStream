@@ -11,6 +11,18 @@ message TotalSales {
 
 message TotalSalesRequest {}
 
+// GetSalesByProduct 
+message SalesByProductRequest {
+  int32 ProductId = 1;
+}
+
+message SalesByProductResponse {
+  int32 ProductId = 1;
+  int32 TotalSales = 2;
+}
+
+
 service AnalyticsService {
   rpc GetTotalSales (TotalSalesRequest) returns (TotalSales) {}
+  rpc GetSalesByProduct (SalesByProductRequest) returns (SalesByProductResponse) {}
 }
