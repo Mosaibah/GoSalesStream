@@ -1,6 +1,6 @@
 syntax = "proto3";
 package transaction;
-option go_package = "./logic";
+option go_package = "./proto";
 import "google/protobuf/timestamp.proto";
 
 
