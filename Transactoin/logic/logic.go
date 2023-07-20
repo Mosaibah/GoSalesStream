@@ -3,7 +3,6 @@ package logic
 import (
 	"context"
 	"database/sql"
-	"fmt"
 	"log"
 	"time"
 
@@ -45,20 +44,14 @@ func (s *Server) GetTransactions(ctx context.Context, in *TransactionsRequest) (
 			CreatedAt: timestamppb.New(created)})
 	}
 
-	log.Printf("this is a log log log ")
+	log.Printf("Log, log")
 
 	return &TransactionsResponse{Transactions: trans}, nil
 }
 
 
 func (s *Server) CreateTransaction(ctx context.Context, in *CreateTransactionRequest) (*CreateTransactionResponse, error){
-	if err != nil {
-		log.Fatal(err)
-	}
-	// var trans []*Transaction
-	// var created time.Time
-	// rows, err := db.Query("SELECT id, customer_id, product_id, price, quantity, created_at FROM transactions ")
-
+	
 	insert_query := "INSERT INTO transactions(customer_id, product_id, price, quantity) VALUES( $1, $2, $3, $4 )"
 	
 	if _, err := db.Exec(insert_query,in.Transaction.CustomerId, in.Transaction.ProductId, in.Transaction.Price, in.Transaction.Quantity); 
@@ -66,9 +59,7 @@ func (s *Server) CreateTransaction(ctx context.Context, in *CreateTransactionReq
 		log.Fatal(err)
 	}
 	
-	fmt.Println(in)
-	log.Printf("this is a log log log ", insert_query)
-
+	log.Println("data => ", in)
 	return &CreateTransactionResponse{Transaction: 	&Transaction{
 		
 			Id: in.Transaction.Id,
