@@ -1,0 +1,16 @@
+syntax = "proto3";
+package analytics;
+option go_package = "./logic";
+// import "google/protobuf/timestamp.proto";
+
+
+// GetTotalSales
+message TotalSales {
+	int32 TotalSales = 1;
+}
+
+message TotalSalesRequest {}
+
+service AnalyticsService {
+  rpc GetTotalSales (TotalSalesRequest) returns (TotalSales) {}
+}
