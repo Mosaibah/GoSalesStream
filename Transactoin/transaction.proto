@@ -20,6 +20,11 @@ message TransactionsResponse {
   repeated Transaction transactions = 1;
 }
 
+// GetTransaction
+message GetTransactionRequest {
+  int32 transaction_id = 1;
+}
+
 // CreateTransaction 
 message CreateTransactionRequest {
   Transaction transaction = 1;
@@ -29,9 +34,8 @@ message CreateTransactionResponse {
   Transaction transaction = 1;
 }
 
-
-
 service TransactionService {
   rpc GetTransactions (TransactionsRequest) returns (TransactionsResponse) {}
   rpc CreateTransaction (CreateTransactionRequest) returns (CreateTransactionResponse) {}
+  rpc GetTransaction (GetTransactionRequest) returns (Transaction) {}
 }

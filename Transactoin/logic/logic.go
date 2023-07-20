@@ -49,6 +49,31 @@ func (s *Server) GetTransactions(ctx context.Context, in *TransactionsRequest) (
 	return &TransactionsResponse{Transactions: trans}, nil
 }
 
+func (s *Server) GetTransaction(ctx context.Context, in *GetTransactionRequest) (*Transaction, error){
+	var trans Transaction
+	var created time.Time
+	query := "SELECT id, customer_id, product_id, price, quantity, created_at FROM transactions where id = $1"
+	err := db.QueryRow(query, in.TransactionId).Scan(&trans.Id, &trans.CustomerId, &trans.ProductId,
+		&trans.Price, &trans.Quantity, &created )
+	switch {
+		case err == sql.ErrNoRows:
+			log.Printf("no transaction with id %d\n", in.TransactionId)
+		case err != nil:
+			log.Fatalf("query error: %v\n", err)
+		default:
+			log.Print("Log, log")
+	}
+	
+	return &Transaction{
+			Id: trans.Id, 
+			CustomerId: trans.CustomerId, 
+			ProductId: trans.ProductId, 
+			Price: trans.Price, 
+			Quantity: trans.Quantity, 
+			CreatedAt: 
+			timestamppb.New(created),
+			}, nil
+}
 
 func (s *Server) CreateTransaction(ctx context.Context, in *CreateTransactionRequest) (*CreateTransactionResponse, error){
 	
