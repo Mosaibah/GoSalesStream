@@ -1,4 +1,3 @@
-// service/transactionService.go
 package service
 
 import (
@@ -30,7 +29,7 @@ func (ts *TransactionService) GetTransactions(ctx context.Context, in *proto.Tra
 }
 
 func (ts *TransactionService) GetTransaction(ctx context.Context, in *proto.GetTransactionRequest) (*proto.Transaction, error){
-	var d, err = ts.td.GetTransaction(int64(in.TransactionId))
+	var d, err = ts.td.GetTransaction(in.TransactionId)
 	if err != nil {
 		log.Fatal(err)
 	}
