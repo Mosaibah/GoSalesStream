@@ -21,7 +21,7 @@ func New(td *store.TransactionData) *TransactionService {
 }
 
 func (ts *TransactionService) GetTransactions(ctx context.Context, in *proto.TransactionsRequest) (*proto.TransactionsResponse, error){
-	var d, err =  ts.td.GetTransactions()
+	var d, err =  ts.td.GetTransactions(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -29,7 +29,7 @@ func (ts *TransactionService) GetTransactions(ctx context.Context, in *proto.Tra
 }
 
 func (ts *TransactionService) GetTransaction(ctx context.Context, in *proto.GetTransactionRequest) (*proto.Transaction, error){
-	var d, err = ts.td.GetTransaction(in.TransactionId)
+	var d, err = ts.td.GetTransaction(ctx, in.TransactionId)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -37,7 +37,7 @@ func (ts *TransactionService) GetTransaction(ctx context.Context, in *proto.GetT
 }
 
 func (ts *TransactionService) CreateTransaction(ctx context.Context, in *proto.CreateTransactionRequest) (*proto.CreateTransactionResponse, error){
-	var d, err = ts.td.CreateTransaction(in.Transaction )
+	var d, err = ts.td.CreateTransaction(ctx, in.Transaction )
 	if err != nil {
 		log.Fatal(err)
 	}

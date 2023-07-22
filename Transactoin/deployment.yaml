@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: go-sales-stream
+  name: transaction-deployment
+  labels:
+    app: transaction
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: transaction
+  template:
+    metadata:
+      labels:
+        app: transaction
+    spec:
+      containers:
+      - name: transaction
+        image: transaction-service:v0.1
+        ports:
+        - containerPort: 9000
