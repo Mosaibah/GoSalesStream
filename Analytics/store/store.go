@@ -6,21 +6,26 @@ import (
 	"log"
 
 	_ "github.com/lib/pq"
-	"analytics/proto"
 )
 
 type AnalyticsData struct {
 	db *sql.DB
 }
 
+type Customer struct {
+	Id int32 
+	Name string
+	TotalSpent float64
+}
+
 func New(db *sql.DB) *AnalyticsData {
 	return &AnalyticsData{db: db}
 }
 
-func (ad AnalyticsData) GetTotalSales(ctx context.Context) (*proto.TotalSales, error){
-	var totalSales proto.TotalSales
+func (ad AnalyticsData) GetTotalSales(ctx context.Context) (float64, error){
+	var totalSales float64
 	query := "SELECT SUM(price) FROM transactions"
-	err := ad.db.QueryRow(query).Scan(&totalSales.TotalSales)
+	err := ad.db.QueryRow(query).Scan(&totalSales)
 	switch {
 		case err == sql.ErrNoRows:
 			log.Printf("no sales ")
@@ -30,14 +35,13 @@ func (ad AnalyticsData) GetTotalSales(ctx context.Context) (*proto.TotalSales, e
 			log.Print("Log, log")
 	}
 	
-	return &totalSales, nil
+	return totalSales, nil
 }
 
-func (ad AnalyticsData) GetSalesByProduct(ctx context.Context, product_id int32) (*proto.SalesByProductResponse, error){
-	var res proto.SalesByProductResponse
-	res.ProductId = product_id
+func (ad AnalyticsData) GetSalesByProduct(ctx context.Context, product_id int32) (*float64, error){
+	var totalSales float64
 	query := "SELECT SUM(price) FROM transactions where product_id = $1"
-	err := ad.db.QueryRow(query, product_id).Scan(&res.TotalSales)
+	err := ad.db.QueryRow(query, product_id).Scan(&totalSales)
 	switch {
 		case err == sql.ErrNoRows:
 			log.Printf("no sales")
@@ -48,24 +52,24 @@ func (ad AnalyticsData) GetSalesByProduct(ctx context.Context, product_id int32)
 			log.Print("Log, log")
 	}
 	
-	return &res, nil
+	return &totalSales, nil
 }
 
 
-func (ad AnalyticsData) GetTop5Customers(ctx context.Context) ([]*proto.Customer, error){
-	var customers []*proto.Customer
+func (ad AnalyticsData) GetTop5Customers(ctx context.Context) ([]Customer, error){
+	var customers[]Customer
 	rows, err := ad.db.Query("SELECT customer_id, SUM(price) FROM transactions GROUP BY customer_id ORDER BY SUM(price) desc LIMIT 5")
 	if err != nil {
 		log.Fatal(err)
 	}
 	log.Println(rows)
 	for rows.Next(){
-		customer := proto.Customer{}
-		err = rows.Scan(&customer.CustomerId, &customer.TotalSpent)
+		customer := Customer{}
+		err = rows.Scan(&customer.Id, &customer.TotalSpent)
 		if err != nil {
 			return nil, err
 		}
-		customers = append(customers, &customer)
+		customers = append(customers, customer)
 	}
 
 	log.Printf("Log, log")
