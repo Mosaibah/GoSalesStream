@@ -7,8 +7,8 @@ import (
 	"time"
 
 	_ "github.com/lib/pq"
-	"google.golang.org/protobuf/types/known/timestamppb"
-	"Transaction/proto"
+	// "google.golang.org/protobuf/types/known/timestamppb"
+	// "Transaction/proto"
 )
 
 type TransactionData struct {
@@ -19,8 +19,17 @@ func New(db *sql.DB) *TransactionData {
 	return &TransactionData{db: db}
 }
 
-func (td *TransactionData) GetTransactions(ctx context.Context) ([]*proto.Transaction, error) {
-	var trans []*proto.Transaction
+type Transaction struct {
+	Id int32
+	CustomerId int32 
+	ProductId int32 
+	Price float64
+	Quantity int32
+	CreatedAt time.Time
+}
+
+func (td *TransactionData) GetTransactions(ctx context.Context) ([]Transaction, error) {
+	var trans []Transaction
 	var created time.Time
 	rows, err := td.db.QueryContext(ctx, "SELECT id, customer_id, product_id, price, quantity, created_at FROM transactions ")
 	if err != nil {
@@ -28,25 +37,25 @@ func (td *TransactionData) GetTransactions(ctx context.Context) ([]*proto.Transa
 	}
 	log.Println(rows)
 	for rows.Next() {
-		transaction := proto.Transaction{}
+		transaction := Transaction{}
 		err = rows.Scan(&transaction.Id, &transaction.CustomerId, &transaction.ProductId,
 			&transaction.Price, &transaction.Quantity, &created)
 		if err != nil {
 			return nil, err
 		}
-		trans = append(trans, &proto.Transaction{
+		trans = append(trans, Transaction{
 			Id: transaction.Id,
 			CustomerId: transaction.CustomerId,
 			ProductId: transaction.ProductId, 
 			Price: transaction.Price, 
 			Quantity: transaction.Quantity, 
-			CreatedAt: timestamppb.New(created)})
+			CreatedAt: created})
 	}
 	return trans, nil
 }
 
-func (td *TransactionData) GetTransaction(ctx context.Context, id int32) (*proto.Transaction, error) {
-	var trans proto.Transaction
+func (td *TransactionData) GetTransaction(ctx context.Context, id int32) (Transaction, error) {
+	var trans Transaction
 	var created time.Time
 	query := "SELECT * FROM transactions where id = $1"
 	err := td.db.QueryRowContext(ctx, query, id).Scan(&trans.Id, &trans.CustomerId, &trans.ProductId,
@@ -60,18 +69,17 @@ func (td *TransactionData) GetTransaction(ctx context.Context, id int32) (*proto
 		log.Print("Log, log")
 	}
 
-	return &proto.Transaction{
+	return Transaction{
 			Id: trans.Id, 
 		CustomerId: trans.CustomerId,
 		ProductId: trans.ProductId,
 			Price: trans.Price, 
 			Quantity: trans.Quantity, 
-			CreatedAt: 
-			timestamppb.New(created),
+			CreatedAt: created,
 	}, nil
 }
 
-func (td *TransactionData) CreateTransaction(ctx context.Context, t *proto.Transaction) (*proto.Transaction, error) {
+func (td *TransactionData) CreateTransaction(ctx context.Context, t Transaction) (Transaction, error) {
 	insert_query := "INSERT INTO transactions(customer_id, product_id, price, quantity) VALUES( $1, $2, $3, $4 ) RETURNING id"
 
 	err := td.db.QueryRowContext(ctx, insert_query, t.CustomerId, t.ProductId, t.Price, t.Quantity).Scan(&t.Id)
@@ -80,13 +88,13 @@ func (td *TransactionData) CreateTransaction(ctx context.Context, t *proto.Trans
 	}
 
 	log.Println("data => ", t)
-	return &proto.Transaction{
+	return Transaction{
 
 			Id: t.Id,
 		CustomerId: t.CustomerId,
 			ProductId: t.ProductId, 
 			Price: t.Price, 
 			Quantity: t.Quantity, 
-			CreatedAt: timestamppb.Now(),
+			CreatedAt: time.Now(),
 	}, nil
 }

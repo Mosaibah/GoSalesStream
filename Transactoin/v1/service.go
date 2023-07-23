@@ -6,7 +6,7 @@ import (
 	// "time"
 
 	_ "github.com/lib/pq"
-	// "google.golang.org/protobuf/types/known/timestamppb"
+	"google.golang.org/protobuf/types/known/timestamppb"
 	"Transaction/store"
 	"Transaction/proto"
 )
@@ -25,21 +25,66 @@ func (ts *TransactionService) GetTransactions(ctx context.Context, in *proto.Tra
 	if err != nil {
 		log.Fatal(err)
 	}
-	return &proto.TransactionsResponse{Transactions: d}, nil
+
+	var transactions []*proto.Transaction
+	//mapping
+	for _, v := range d {
+		var tran = &proto.Transaction{
+			Id: v.Id, 
+			CustomerId: v.CustomerId,
+			ProductId: v.ProductId,
+			Price: v.Price,
+			Quantity: v.Quantity,
+			CreatedAt: timestamppb.New(v.CreatedAt),
+		}
+
+		transactions = append(transactions, tran)
+
+		if err != nil {
+			log.Print("error while mapping store Transaction to proto message")
+			return nil, err
+		}
+	}
+
+	return &proto.TransactionsResponse{Transactions: transactions}, nil
 }
 
 func (ts *TransactionService) GetTransaction(ctx context.Context, in *proto.GetTransactionRequest) (*proto.Transaction, error){
-	var d, err = ts.td.GetTransaction(ctx, in.TransactionId)
+	var res, err = ts.td.GetTransaction(ctx, in.TransactionId)
 	if err != nil {
 		log.Fatal(err)
 	}
-	return d, nil
+	log.Print("res =>", res)
+
+	var tran = &proto.Transaction{
+		Id: res.Id, 
+		CustomerId: res.CustomerId,
+		ProductId: res.ProductId,
+		Price: res.Price,
+		Quantity: res.Quantity,
+		CreatedAt: timestamppb.New(res.CreatedAt),
+	}
+	log.Print("mapp", tran)
+
+	return tran, nil
 }
 
 func (ts *TransactionService) CreateTransaction(ctx context.Context, in *proto.CreateTransactionRequest) (*proto.CreateTransactionResponse, error){
-	var d, err = ts.td.CreateTransaction(ctx, in.Transaction )
+	var res, err = ts.td.CreateTransaction(
+		ctx, 
+		store.Transaction{CustomerId: in.Transaction.CustomerId, ProductId: in.Transaction.ProductId, Price: in.Transaction.Price, Quantity: in.Transaction.Quantity})
 	if err != nil {
 		log.Fatal(err)
 	}
-	return &proto.CreateTransactionResponse{Transaction: d}, nil
+
+	var tran = &proto.Transaction{
+		Id: res.Id, 
+		CustomerId: res.CustomerId,
+		ProductId: res.ProductId,
+		Price: res.Price,
+		Quantity: res.Quantity,
+		CreatedAt: timestamppb.New(res.CreatedAt),
+	}
+
+	return &proto.CreateTransactionResponse{Transaction: tran}, nil
 }
