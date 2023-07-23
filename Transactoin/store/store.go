@@ -7,8 +7,6 @@ import (
 	"time"
 
 	_ "github.com/lib/pq"
-	// "google.golang.org/protobuf/types/known/timestamppb"
-	// "Transaction/proto"
 )
 
 type TransactionData struct {
@@ -35,7 +33,6 @@ func (td *TransactionData) GetTransactions(ctx context.Context) ([]Transaction, 
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println(rows)
 	for rows.Next() {
 		transaction := Transaction{}
 		err = rows.Scan(&transaction.Id, &transaction.CustomerId, &transaction.ProductId,
@@ -71,8 +68,8 @@ func (td *TransactionData) GetTransaction(ctx context.Context, id int32) (Transa
 
 	return Transaction{
 			Id: trans.Id, 
-		CustomerId: trans.CustomerId,
-		ProductId: trans.ProductId,
+			CustomerId: trans.CustomerId,
+			ProductId: trans.ProductId,
 			Price: trans.Price, 
 			Quantity: trans.Quantity, 
 			CreatedAt: created,
@@ -86,8 +83,6 @@ func (td *TransactionData) CreateTransaction(ctx context.Context, t Transaction)
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	log.Println("data => ", t)
 	return Transaction{
 
 			Id: t.Id,

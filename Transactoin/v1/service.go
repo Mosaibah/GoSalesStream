@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"log"
-	// "time"
 
 	_ "github.com/lib/pq"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -54,7 +53,6 @@ func (ts *TransactionService) GetTransaction(ctx context.Context, in *proto.GetT
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Print("res =>", res)
 
 	var tran = &proto.Transaction{
 		Id: res.Id, 
@@ -64,7 +62,6 @@ func (ts *TransactionService) GetTransaction(ctx context.Context, in *proto.GetT
 		Quantity: res.Quantity,
 		CreatedAt: timestamppb.New(res.CreatedAt),
 	}
-	log.Print("mapp", tran)
 
 	return tran, nil
 }
