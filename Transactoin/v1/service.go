@@ -67,6 +67,11 @@ func (ts *TransactionService) GetTransaction(ctx context.Context, in *proto.GetT
 }
 
 func (ts *TransactionService) CreateTransaction(ctx context.Context, in *proto.CreateTransactionRequest) (*proto.CreateTransactionResponse, error){
+	
+	// validation
+	ts.td.GetCustomerById(ctx, in.Transaction.CustomerId)
+	ts.td.GetProductById(ctx, in.Transaction.ProductId)
+	
 	var res, err = ts.td.CreateTransaction(
 		ctx, 
 		store.Transaction{CustomerId: in.Transaction.CustomerId, ProductId: in.Transaction.ProductId, Price: in.Transaction.Price, Quantity: in.Transaction.Quantity})

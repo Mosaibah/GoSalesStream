@@ -26,6 +26,16 @@ type Transaction struct {
 	CreatedAt time.Time
 }
 
+type Product struct {
+	Id int32 
+	Name string
+}
+
+type Customer struct {
+	Id int32 
+	Name string
+}
+
 func (td *TransactionData) GetTransactions(ctx context.Context) ([]Transaction, error) {
 	var trans []Transaction
 	var created time.Time
@@ -92,4 +102,38 @@ func (td *TransactionData) CreateTransaction(ctx context.Context, t Transaction)
 			Quantity: t.Quantity, 
 			CreatedAt: time.Now(),
 	}, nil
+}
+
+func (td *TransactionData) GetProductById(ctx context.Context, id int32) (*Product, error) {
+	var product Product
+	query := "SELECT * FROM products where id = $1"
+	err := td.db.QueryRowContext(ctx, query, id).Scan(&product.Id, &product.Name)
+	switch {
+	case err == sql.ErrNoRows:
+		log.Fatal("no product with id %d\n", id)
+		return nil, err
+	case err != nil:
+		log.Fatalf("query error: %v\n", err)
+	default:
+		log.Print("Log, log")
+	}
+
+	return &product, nil
+}
+
+func (td *TransactionData) GetCustomerById(ctx context.Context, id int32) (*Customer, error) {
+	var customer Customer
+	query := "SELECT * FROM customers where id = $1"
+	err := td.db.QueryRowContext(ctx, query, id).Scan(&customer.Id, &customer.Name)
+	switch {
+	case err == sql.ErrNoRows:
+		log.Fatal("no customer with id %d\n", id)
+		return nil, err
+	case err != nil:
+		log.Fatalf("query error: %v\n", err)
+	default:
+		log.Print("Log, log")
+	}
+
+	return &customer, nil
 }
