@@ -5,7 +5,7 @@ option go_package = "./proto";
 
 // GetTotalSales
 message TotalSales {
-	int32 TotalSales = 1;
+	double TotalSales = 1;
 }
 message TotalSalesRequest {}
 

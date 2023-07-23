@@ -23,7 +23,7 @@ func (ad AnalyticsData) GetTotalSales(ctx context.Context) (*proto.TotalSales, e
 	err := ad.db.QueryRow(query).Scan(&totalSales.TotalSales)
 	switch {
 		case err == sql.ErrNoRows:
-			log.Printf("no transaction  %d\n")
+			log.Printf("no sales ")
 		case err != nil:
 			log.Fatalf("query error: %v\n", err)
 		default:
@@ -40,7 +40,7 @@ func (ad AnalyticsData) GetSalesByProduct(ctx context.Context, product_id int32)
 	err := ad.db.QueryRow(query, product_id).Scan(&res.TotalSales)
 	switch {
 		case err == sql.ErrNoRows:
-			log.Printf("no transaction  %d\n")
+			log.Printf("no sales")
 		case err != nil:
 			log.Printf("query error: %v\n", err)
 			return nil, err
