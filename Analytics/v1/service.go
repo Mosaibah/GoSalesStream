@@ -11,10 +11,10 @@ import (
 
 type AnalyticsService struct{
 	proto.AnalyticsServiceServer
-	ad *store.AnalyticsData
+	ad store.AnalyticsDataInterface
 }
 
-func New(ad *store.AnalyticsData) *AnalyticsService {
+func New(ad store.AnalyticsDataInterface) *AnalyticsService {
 	return &AnalyticsService{ad: ad}
 }
 
@@ -24,7 +24,7 @@ func (as *AnalyticsService) GetTotalSales(ctx context.Context, in *proto.TotalSa
 		log.Fatal(err)
 	}
 	
-	return &proto.TotalSales{TotalSales: total_sales}, nil
+	return &proto.TotalSales{TotalSales: *total_sales}, nil
 }
 
 func (as *AnalyticsService) GetSalesByProduct(ctx context.Context, in *proto.SalesByProductRequest) (*proto.SalesByProductResponse, error){

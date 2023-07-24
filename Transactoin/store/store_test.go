@@ -4,11 +4,8 @@ import (
 	"context"
 	"testing"
 	"time"
-
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/assert"
-	"google.golang.org/protobuf/types/known/timestamppb"
-	"Transaction/proto"
 )
 
 func TestGetTransactions_success(t *testing.T) {
@@ -68,12 +65,12 @@ func TestCreateTransaction_success(t *testing.T) {
 	}
 	defer db.Close()
 
-	newTransaction := &proto.Transaction{
+	newTransaction := Transaction{
 		CustomerId: 2,
 		ProductId: 19,
 		Price: 1892.7,
 		Quantity: 73,
-		CreatedAt: timestamppb.Now(),
+		CreatedAt: time.Now(),
 	}
 
 	store := New(db)

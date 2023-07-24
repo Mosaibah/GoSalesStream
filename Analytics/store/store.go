@@ -18,11 +18,17 @@ type Customer struct {
 	TotalSpent float64
 }
 
+type AnalyticsDataInterface interface {
+	GetTotalSales(ctx context.Context) (*float64, error)
+	GetSalesByProduct(ctx context.Context, product_id int32) (*float64, error)
+	GetTop5Customers(ctx context.Context) ([]Customer, error)
+}
+
 func New(db *sql.DB) *AnalyticsData {
 	return &AnalyticsData{db: db}
 }
 
-func (ad AnalyticsData) GetTotalSales(ctx context.Context) (float64, error){
+func (ad *AnalyticsData) GetTotalSales(ctx context.Context) (*float64, error){
 	var totalSales float64
 	query := "SELECT SUM(price) FROM transactions"
 	err := ad.db.QueryRow(query).Scan(&totalSales)
@@ -35,19 +41,18 @@ func (ad AnalyticsData) GetTotalSales(ctx context.Context) (float64, error){
 			log.Print("Log, log")
 	}
 	
-	return totalSales, nil
+	return &totalSales, nil
 }
 
-func (ad AnalyticsData) GetSalesByProduct(ctx context.Context, product_id int32) (*float64, error){
+func (ad *AnalyticsData) GetSalesByProduct(ctx context.Context, product_id int32) (*float64, error){
 	var totalSales float64
 	query := "SELECT SUM(price) FROM transactions where product_id = $1"
 	err := ad.db.QueryRow(query, product_id).Scan(&totalSales)
 	switch {
 		case err == sql.ErrNoRows:
-			log.Printf("no sales")
+			log.Fatal("no sales")
 		case err != nil:
-			log.Printf("query error: %v\n", err)
-			return nil, err
+			log.Fatal("query error: %v\n", err)
 		default:
 			log.Print("Log, log")
 	}
@@ -56,7 +61,7 @@ func (ad AnalyticsData) GetSalesByProduct(ctx context.Context, product_id int32)
 }
 
 
-func (ad AnalyticsData) GetTop5Customers(ctx context.Context) ([]Customer, error){
+func (ad *AnalyticsData) GetTop5Customers(ctx context.Context) ([]Customer, error){
 	var customers[]Customer
 	rows, err := ad.db.Query("SELECT customer_id, SUM(price) FROM transactions GROUP BY customer_id ORDER BY SUM(price) desc LIMIT 5")
 	if err != nil {

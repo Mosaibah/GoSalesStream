@@ -118,7 +118,7 @@ func (td *TransactionData) GetProductById(ctx context.Context, id int32) (*Produ
 	err := td.db.QueryRowContext(ctx, query, id).Scan(&product.Id, &product.Name)
 	switch {
 	case err == sql.ErrNoRows:
-		log.Fatal("no product with id %d\n", id)
+		log.Fatalf("no product with id %d\n", id)
 		return nil, err
 	case err != nil:
 		log.Fatalf("query error: %v\n", err)
@@ -135,7 +135,7 @@ func (td *TransactionData) GetCustomerById(ctx context.Context, id int32) (*Cust
 	err := td.db.QueryRowContext(ctx, query, id).Scan(&customer.Id, &customer.Name)
 	switch {
 	case err == sql.ErrNoRows:
-		log.Fatal("no customer with id %d\n", id)
+		log.Fatalf("no customer with id %d\n", id)
 		return nil, err
 	case err != nil:
 		log.Fatalf("query error: %v\n", err)
