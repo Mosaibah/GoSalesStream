@@ -5,12 +5,12 @@ import (
 	"testing"
 
 	"analytics/proto"
-	"analytics/store"
+	"analytics/mock"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGetTotalSales(t *testing.T) {
-	mockService := New(&store.MockAnalyticsData{})
+	mockService := New(&mock.MockAnalyticsData{})
 
 	res, err := mockService.GetTotalSales(context.Background(), &proto.TotalSalesRequest{})
 
@@ -20,7 +20,7 @@ func TestGetTotalSales(t *testing.T) {
 }
 
 func TestGetSalesByProduct(t *testing.T) {
-	mockService := New(&store.MockAnalyticsData{})
+	mockService := New(&mock.MockAnalyticsData{})
 
 	res, err := mockService.GetSalesByProduct(context.Background(), &proto.SalesByProductRequest{})
 
@@ -30,7 +30,7 @@ func TestGetSalesByProduct(t *testing.T) {
 }
 
 func TestGetTop5Customers(t *testing.T) {
-	mockService := New(&store.MockAnalyticsData{})
+	mockService := New(&mock.MockAnalyticsData{})
 
 	res, err := mockService.GetTop5Customers(context.Background(), &proto.Top5CustomersRequest{})
 
@@ -39,7 +39,7 @@ func TestGetTop5Customers(t *testing.T) {
 	assert.Equal(t, 5, len(res.Customer))
 	assert.Equal(t, int32(1), res.Customer[0].CustomerId)
 	assert.Equal(t, "Mohammed", res.Customer[1].CustomerName)
-	assert.Equal(t, 75075, res.Customer[2].TotalSpent)
-	assert.Equal(t, 10010, res.Customer[3].TotalSpent)
+	assert.Equal(t, int32(75075), res.Customer[2].TotalSpent)
+	assert.Equal(t, int32(10010), res.Customer[3].TotalSpent)
 	assert.Equal(t, "Abdulaziz", res.Customer[4].CustomerName)
 }

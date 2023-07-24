@@ -32,6 +32,8 @@ func main() {
 
 	proto.RegisterAnalyticsServiceServer(grpcServer, service)
 
+	defer db.Close()
+
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %s", err)
 	}
