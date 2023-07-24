@@ -28,7 +28,7 @@ message Customer {
 }
 
 message Top5CustomersResponse {
-  repeated Customer customer = 1;
+  repeated Customer Customer = 1;
 }
 
 
