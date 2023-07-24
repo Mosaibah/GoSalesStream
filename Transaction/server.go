@@ -8,9 +8,9 @@ import (
 	_ "github.com/lib/pq"
 	"google.golang.org/grpc"
 
-	"Transaction/store"
-	"Transaction/v1"
-	"Transaction/proto"
+	"transaction/store"
+	"transaction/v1"
+	"transaction/proto"
 )
 
 const connStr = "postgres://root:@localhost:26260/GoSalesStream?sslmode=disable&parseTime=true"

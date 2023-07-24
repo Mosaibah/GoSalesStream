@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"Transaction/proto"
-	"Transaction/store"
+	"transaction/proto"
+	"transaction/store"
 	"github.com/stretchr/testify/assert"
 )
 
