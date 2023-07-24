@@ -8,6 +8,7 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"transaction/store"
 	"transaction/proto"
+	"fmt"
 )
 
 type TransactionService struct{
@@ -68,7 +69,22 @@ func (ts *TransactionService) GetTransaction(ctx context.Context, in *proto.GetT
 
 func (ts *TransactionService) CreateTransaction(ctx context.Context, in *proto.CreateTransactionRequest) (*proto.CreateTransactionResponse, error){
 	
-	// validation
+	if in.Transaction == nil {
+		return nil, fmt.Errorf("transaction cannot be nil")
+	}
+	if in.Transaction.CustomerId <= 0 {
+		return nil, fmt.Errorf("customer id must be greater than 0")
+	}
+	if in.Transaction.ProductId <= 0 {
+		return nil, fmt.Errorf("product id must be greater than 0")
+	}
+	if in.Transaction.Price <= 0 {
+		return nil, fmt.Errorf("price must be greater than 0")
+	}
+	if in.Transaction.Quantity <= 0 {
+		return nil, fmt.Errorf("quantity must be greater than 0")
+	}
+
 	ts.td.GetCustomerById(ctx, in.Transaction.CustomerId)
 	ts.td.GetProductById(ctx, in.Transaction.ProductId)
 	
