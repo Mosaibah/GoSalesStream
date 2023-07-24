@@ -8,7 +8,7 @@ import (
 	"analytics/v1"
 	"analytics/proto"
 	"database/sql"
-
+	"google.golang.org/grpc/reflection"
 )
 
 const connStr = "postgres://root:@localhost:26260/GoSalesStream?sslmode=disable&parseTime=true"
@@ -29,6 +29,7 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
+	reflection.Register(grpcServer)
 
 	proto.RegisterAnalyticsServiceServer(grpcServer, service)
 

@@ -11,6 +11,7 @@ import (
 	"transaction/store"
 	"transaction/v1"
 	"transaction/proto"
+	"google.golang.org/grpc/reflection"
 )
 
 const connStr = "postgres://root:@localhost:26260/GoSalesStream?sslmode=disable&parseTime=true"
@@ -30,6 +31,7 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
+	reflection.Register(grpcServer)
 
 	proto.RegisterTransactionServiceServer(grpcServer, service)
 
