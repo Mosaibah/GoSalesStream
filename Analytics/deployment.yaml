@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: analytics
-        image: analytics-service:v1
+        image: analytics-service:v2
         ports:
         - containerPort: 9001

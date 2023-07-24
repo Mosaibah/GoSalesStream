@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: transaction
-        image: transaction-service:v0.1
+        image: transaction-service:v2
         ports:
         - containerPort: 9000
