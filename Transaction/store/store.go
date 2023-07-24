@@ -26,21 +26,21 @@ func New(db *sql.DB) *TransactionData {
 }
 
 type Transaction struct {
-	Id int32
-	CustomerId int32 
-	ProductId int32 
-	Price float64
+	Id   int32
+	CustomerId int32
+	ProductId  int32
+	Price int32
 	Quantity int32
 	CreatedAt time.Time
 }
 
 type Product struct {
-	Id int32 
+	Id   int32
 	Name string
 }
 
 type Customer struct {
-	Id int32 
+	Id   int32
 	Name string
 }
 
@@ -59,12 +59,12 @@ func (td *TransactionData) GetTransactions(ctx context.Context) ([]Transaction, 
 			return nil, err
 		}
 		trans = append(trans, Transaction{
-			Id: transaction.Id,
+			Id:         transaction.Id,
 			CustomerId: transaction.CustomerId,
-			ProductId: transaction.ProductId, 
-			Price: transaction.Price, 
-			Quantity: transaction.Quantity, 
-			CreatedAt: created})
+			ProductId:  transaction.ProductId,
+			Price:      transaction.Price,
+			Quantity:   transaction.Quantity,
+			CreatedAt:  created})
 	}
 	return trans, nil
 }
@@ -85,12 +85,12 @@ func (td *TransactionData) GetTransaction(ctx context.Context, id int32) (Transa
 	}
 
 	return Transaction{
-			Id: trans.Id, 
-			CustomerId: trans.CustomerId,
-			ProductId: trans.ProductId,
-			Price: trans.Price, 
-			Quantity: trans.Quantity, 
-			CreatedAt: created,
+		Id:  trans.Id,
+		CustomerId: trans.CustomerId,
+		ProductId:  trans.ProductId,
+		Price:  trans.Price,
+		Quantity:  trans.Quantity,
+		CreatedAt:  created,
 	}, nil
 }
 
@@ -103,12 +103,12 @@ func (td *TransactionData) CreateTransaction(ctx context.Context, t Transaction)
 	}
 	return Transaction{
 
-			Id: t.Id,
+		Id: t.Id,
 		CustomerId: t.CustomerId,
-			ProductId: t.ProductId, 
-			Price: t.Price, 
-			Quantity: t.Quantity, 
-			CreatedAt: time.Now(),
+		ProductId:  t.ProductId,
+		Price: t.Price,
+		Quantity: t.Quantity,
+		CreatedAt: time.Now(),
 	}, nil
 }
 

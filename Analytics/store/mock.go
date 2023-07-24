@@ -6,25 +6,23 @@ import (
 
 type MockAnalyticsData struct{}
 
-
-func (m *MockAnalyticsData) GetTotalSales(ctx context.Context) (*float64, error){
-	var a float64 = 999
+func (m *MockAnalyticsData) GetTotalSales(ctx context.Context) (*int32, error) {
+	var a int32 = 999
 	return &a, nil
 }
 
-func (m *MockAnalyticsData) GetSalesByProduct(ctx context.Context, product_id int32) (*float64, error){
-	var a float64 = 998
+func (m *MockAnalyticsData) GetSalesByProduct(ctx context.Context, product_id int32) (*int32, error) {
+	var a int32 = 998
 	return &a, nil
 }
 
-
-func (m *MockAnalyticsData) GetTop5Customers(ctx context.Context) ([]Customer, error){
+func (m *MockAnalyticsData) GetTop5Customers(ctx context.Context) ([]Customer, error) {
 	customers := []Customer{
-		{Id: 1, Name: "Abdulrahman", TotalSpent: 500.50},
-		{Id: 2, Name: "Mohammed", TotalSpent: 300.30},
-		{Id: 3, Name: "Ibramim", TotalSpent: 750.75},
-		{Id: 4, Name: "Omar", TotalSpent: 1000.10},
-		{Id: 5, Name: "Abdulaziz", TotalSpent: 250.25},
+		{Id: 1, Name: "Abdulrahman", TotalSpent: 5050},
+		{Id: 2, Name: "Mohammed", TotalSpent: 3030},
+		{Id: 3, Name: "Ibramim", TotalSpent: 75075},
+		{Id: 4, Name: "Omar", TotalSpent: 10010},
+		{Id: 5, Name: "Abdulaziz", TotalSpent: 2525},
 	}
 	return customers, nil
 }

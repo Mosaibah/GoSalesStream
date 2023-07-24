@@ -16,7 +16,7 @@ func TestGetTotalSales(t *testing.T) {
 
 	assert.Nil(t, err)
 
-	assert.Equal(t, float64(999), res.TotalSales)
+	assert.Equal(t, int32(999), res.TotalSales)
 }
 
 func TestGetSalesByProduct(t *testing.T) {
@@ -26,7 +26,7 @@ func TestGetSalesByProduct(t *testing.T) {
 
 	assert.Nil(t, err)
 
-	assert.Equal(t, float64(998), res.TotalSales)
+	assert.Equal(t, int32(998), res.TotalSales)
 }
 
 func TestGetTop5Customers(t *testing.T) {
@@ -39,7 +39,7 @@ func TestGetTop5Customers(t *testing.T) {
 	assert.Equal(t, 5, len(res.Customer))
 	assert.Equal(t, int32(1), res.Customer[0].CustomerId)
 	assert.Equal(t, "Mohammed", res.Customer[1].CustomerName)
-	assert.Equal(t, 750.75, res.Customer[2].TotalSpent)
-	assert.Equal(t, 1000.10, res.Customer[3].TotalSpent)
+	assert.Equal(t, 75075, res.Customer[2].TotalSpent)
+	assert.Equal(t, 10010, res.Customer[3].TotalSpent)
 	assert.Equal(t, "Abdulaziz", res.Customer[4].CustomerName)
 }

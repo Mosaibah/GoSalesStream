@@ -8,7 +8,7 @@ message Transaction {
   int32 Id = 1;
 	int32 CustomerId = 2;
 	int32 ProductId = 3;
-	double Price = 4;
+	int32 Price = 4;
 	int32 Quantity = 5;
   google.protobuf.Timestamp CreatedAt = 6;
 }

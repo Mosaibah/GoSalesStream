@@ -4,9 +4,9 @@ import (
 	"context"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
 	"transaction/proto"
 	"transaction/store"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestGetTransactions(t *testing.T) {
@@ -19,7 +19,7 @@ func TestGetTransactions(t *testing.T) {
 	assert.Equal(t, 2, len(resp.Transactions))
 	assert.Equal(t, int32(1), resp.Transactions[0].Id)
 	assert.Equal(t, int32(2), resp.Transactions[0].ProductId)
-	assert.Equal(t, float64(100.0), resp.Transactions[0].Price)
+	assert.Equal(t, int32(100.0), resp.Transactions[0].Price)
 	assert.Equal(t, int32(15), resp.Transactions[0].Quantity)
 }
 
@@ -32,7 +32,7 @@ func TestGetTransaction(t *testing.T) {
 
 	assert.Equal(t, int32(1), resp.Id)
 	assert.Equal(t, int32(1), resp.ProductId)
-	assert.Equal(t, float64(87.3), resp.Price)
+	assert.Equal(t, int32(87.3), resp.Price)
 	assert.Equal(t, int32(9), resp.Quantity)
 }
 
@@ -42,9 +42,9 @@ func TestCreateTransaction(t *testing.T) {
 	req := &proto.CreateTransactionRequest{
 		Transaction: &proto.Transaction{
 			CustomerId: 1,
-			ProductId: 1,
-			Price: 100.0,
-			Quantity: 1,
+			ProductId:  1,
+			Price:      100.0,
+			Quantity:   1,
 		},
 	}
 

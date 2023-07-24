@@ -18,8 +18,8 @@ func TestGetTransactions_success(t *testing.T) {
 	store := New(db) // Alocate memory but not initialize, (return a pointer)
 
 	rows := sqlmock.NewRows([]string{"id", "customer_id", "product_id", "price", "quantity", "created_at"}).
-		AddRow(1, 1, 1, 20.0, 2, time.Now()).
-		AddRow(2, 2, 2, 30.0, 3, time.Now())
+		AddRow(1, 1, 1, 20, 2, time.Now()).
+		AddRow(2, 2, 2, 30, 3, time.Now())
 
 	query := "SELECT (.+) FROM transactions"
 	mock.ExpectQuery(query).WillReturnRows(rows)
@@ -52,7 +52,7 @@ func TestGetTransaction_success(t *testing.T) {
 	assert.Equal(t, int32(1), transaction.Id)
 	assert.Equal(t, int32(2), transaction.CustomerId)
 	assert.Equal(t, int32(3), transaction.ProductId)
-	assert.Equal(t, 20.5, transaction.Price)
+	assert.Equal(t, int32(20), transaction.Price)
 	assert.Equal(t, int32(15), transaction.Quantity)
 
 	assert.NoError(t, err)
@@ -68,7 +68,7 @@ func TestCreateTransaction_success(t *testing.T) {
 	newTransaction := Transaction{
 		CustomerId: 2,
 		ProductId: 19,
-		Price: 1892.7,
+		Price: 1892,
 		Quantity: 73,
 		CreatedAt: time.Now(),
 	}
@@ -85,7 +85,7 @@ func TestCreateTransaction_success(t *testing.T) {
 	assert.Equal(t, int32(1), transaction.Id)
 	assert.Equal(t, int32(2), transaction.CustomerId)
 	assert.Equal(t, int32(19), transaction.ProductId)
-	assert.Equal(t, 1892.7, transaction.Price)
+	assert.Equal(t, int32(1892), transaction.Price)
 	assert.Equal(t, int32(73), transaction.Quantity)
 
 	err = mock.ExpectationsWereMet()
