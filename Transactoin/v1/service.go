@@ -12,10 +12,10 @@ import (
 
 type TransactionService struct{
 	proto.TransactionServiceServer
-	td *store.TransactionData
+	td store.TransactionDataInterface 
 }
 
-func New(td *store.TransactionData) *TransactionService {
+func New(td store.TransactionDataInterface) *TransactionService { 
 	return &TransactionService{td: td}
 }
 

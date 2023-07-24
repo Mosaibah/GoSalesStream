@@ -13,6 +13,14 @@ type TransactionData struct {
 	db *sql.DB
 }
 
+type TransactionDataInterface interface {
+	GetTransactions(ctx context.Context) ([]Transaction, error)
+	GetTransaction(ctx context.Context, id int32) (Transaction, error)
+	CreateTransaction(ctx context.Context, t Transaction) (Transaction, error)
+	GetProductById(ctx context.Context, id int32) (*Product, error)
+	GetCustomerById(ctx context.Context, id int32) (*Customer, error)
+}
+
 func New(db *sql.DB) *TransactionData {
 	return &TransactionData{db: db}
 }
