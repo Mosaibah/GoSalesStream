@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: analytics
-        image: abdulrahmantweeq/analytics-service:v4
+        image: abdulrahmantweeq/analytics-service:v5
         ports:
         - containerPort: 9001
         envFrom:

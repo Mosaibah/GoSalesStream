@@ -13,9 +13,6 @@ import (
 	"fmt"
 )
 
-// const connStr = "postgres://root:@localhost:26260/GoSalesStream?sslmode=disable&parseTime=true"
-// const connStr = "postgres://root:@host.minikube.internal:26260/GoSalesStream?sslmode=disable&parseTime=true"
-
 func main() {
 
 	username := os.Getenv("username")

@@ -5,30 +5,30 @@ option go_package = "./proto";
 
 // GetTotalSales
 message TotalSales {
-	int32 TotalSales = 1;
+	int32 total_sales = 1;
 }
 message TotalSalesRequest {}
 
 // GetSalesByProduct 
 message SalesByProductRequest {
-  int32 ProductId = 1;
+  int32 product_id = 1;
 }
 
 message SalesByProductResponse {
-  int32 ProductId = 1;
-  int32 TotalSales = 2;
+  int32 product_id = 1;
+  int32 total_sales = 2;
 }
 
 // GetTop5Customers 
 message Top5CustomersRequest {}
 message Customer {
-  int32 CustomerId = 1;
-  int32 TotalSpent = 2;
-  string CustomerName = 3;
+  int32 customer_id = 1;
+  int32 total_spent = 2;
+  string customer_name = 3;
 }
 
 message Top5CustomersResponse {
-  repeated Customer Customer = 1;
+  repeated Customer customer = 1;
 }
 
 

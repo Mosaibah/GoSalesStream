@@ -1,3 +1,6 @@
+CREATE DATABASE IF NOT EXISTS "GoSalesStream";
+
+SET DATABASE  = "GoSalesStream";
 
 CREATE SEQUENCE transactions_seq
   start 1
@@ -27,7 +30,7 @@ CREATE TABLE transactions (
 	"id" int NOT null default nextval('transactions_seq'),
 	"customer_id" integer NOT NULL,
 	"product_id" integer NOT NULL,
-	"price" DECIMAL NOT NULL,
+	"price" integer NOT NULL,
 	"quantity" integer not null,
 	"created_at" TIMESTAMP NOT null DEFAULT now(),
 	CONSTRAINT "transactions_pk" PRIMARY KEY ("id")

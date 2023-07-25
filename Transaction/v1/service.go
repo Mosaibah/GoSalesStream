@@ -73,7 +73,7 @@ func (ts *TransactionService) GetTransaction(ctx context.Context, in *proto.GetT
 func (ts *TransactionService) CreateTransaction(ctx context.Context, in *proto.CreateTransactionRequest) (*proto.CreateTransactionResponse, error){
 	
 	if in.Transaction == nil {
-		return nil, fmt.Errorf("transaction cannot be nil")
+		return nil, status.Error(codes.InvalidArgument, "Invalid")
 	}
 	if in.Transaction.CustomerId <= 0 {
 		return nil, fmt.Errorf("customer id must be greater than 0")
@@ -90,12 +90,12 @@ func (ts *TransactionService) CreateTransaction(ctx context.Context, in *proto.C
 
 	_, err := ts.td.GetCustomerById(ctx, in.Transaction.CustomerId)
 	if err != nil {
-		return nil, status.Error(codes.Internal, err.Error())
+		return nil, status.Error(codes.NotFound, err.Error())
 	}
 
 	_, err = ts.td.GetProductById(ctx, in.Transaction.ProductId)
 	if err != nil {
-		return nil, status.Error(codes.Internal, err.Error())
+		return nil, status.Error(codes.NotFound, err.Error())
 	}
 	
 	res, err := ts.td.CreateTransaction(

@@ -36,7 +36,7 @@ GoSalesStream is a project that simulates E-commerce transactions and provides r
 2. Run the Kubernetes deployment script:
 
     ```bash
-    ./k8s/deploy.sh
+    ./server/deploy.sh
     ```
 
 3. Forward the ports for the transaction service:

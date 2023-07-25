@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: transaction
-        image: abdulrahmantweeq/transaction-service:v4
+        image: abdulrahmantweeq/transaction-service:v5
         ports:
         - containerPort: 9000
         envFrom:
