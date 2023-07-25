@@ -17,6 +17,11 @@ spec:
     spec:
       containers:
       - name: analytics
-        image: analytics-service:v2
+        image: abdulrahmantweeq/analytics-service:v4
         ports:
         - containerPort: 9001
+        envFrom:
+        - secretRef:
+            name: db-secrets
+        - configMapRef:
+            name: db-config

@@ -17,6 +17,11 @@ spec:
     spec:
       containers:
       - name: transaction
-        image: transaction-service:v2
+        image: abdulrahmantweeq/transaction-service:v4
         ports:
         - containerPort: 9000
+        envFrom:
+          - secretRef:
+              name: db-secrets
+          - configMapRef:
+              name: db-config
