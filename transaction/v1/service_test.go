@@ -16,11 +16,11 @@ func TestGetTransactions(t *testing.T) {
 
 	assert.Nil(t, err)
 
-	assert.Equal(t, 2, len(resp.Transactions))
-	assert.Equal(t, int32(1), resp.Transactions[0].Id)
-	assert.Equal(t, int32(2), resp.Transactions[0].ProductId)
-	assert.Equal(t, int32(100), resp.Transactions[0].Price)
-	assert.Equal(t, int32(15), resp.Transactions[0].Quantity)
+	assert.Equal(t, 2, len(resp.Transaction))
+	assert.Equal(t, int32(1), resp.Transaction[0].Id)
+	assert.Equal(t, int32(2), resp.Transaction[0].ProductId)
+	assert.Equal(t, int32(100), resp.Transaction[0].Price)
+	assert.Equal(t, int32(15), resp.Transaction[0].Quantity)
 }
 
 func TestGetTransaction(t *testing.T) {

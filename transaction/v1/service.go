@@ -49,7 +49,7 @@ func (ts *TransactionService) GetTransactions(ctx context.Context, in *proto.Tra
 		}
 	}
 
-	return &proto.TransactionsResponse{Transactions: transactions}, nil
+	return &proto.TransactionsResponse{Transaction: transactions}, nil
 }
 
 func (ts *TransactionService) GetTransaction(ctx context.Context, in *proto.GetTransactionRequest) (*proto.Transaction, error){
