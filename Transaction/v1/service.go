@@ -9,6 +9,9 @@ import (
 	"transaction/store"
 	"transaction/proto"
 	"fmt"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+
 )
 
 type TransactionService struct{
@@ -23,12 +26,12 @@ func New(td store.TransactionDataInterface) *TransactionService {
 func (ts *TransactionService) GetTransactions(ctx context.Context, in *proto.TransactionsRequest) (*proto.TransactionsResponse, error){
 	var d, err =  ts.td.GetTransactions(ctx)
 	if err != nil {
-		log.Fatal(err)
+		return nil, status.Error(codes.Internal, err.Error())
 	}
 
 	var transactions []*proto.Transaction
 	//mapping
-	for _, v := range d {
+	for _, v := range *d {
 		var tran = &proto.Transaction{
 			Id: v.Id, 
 			CustomerId: v.CustomerId,
@@ -52,7 +55,7 @@ func (ts *TransactionService) GetTransactions(ctx context.Context, in *proto.Tra
 func (ts *TransactionService) GetTransaction(ctx context.Context, in *proto.GetTransactionRequest) (*proto.Transaction, error){
 	var res, err = ts.td.GetTransaction(ctx, in.TransactionId)
 	if err != nil {
-		log.Fatal(err)
+		return nil, status.Error(codes.Internal, err.Error())
 	}
 
 	var tran = &proto.Transaction{
@@ -85,14 +88,21 @@ func (ts *TransactionService) CreateTransaction(ctx context.Context, in *proto.C
 		return nil, fmt.Errorf("quantity must be greater than 0")
 	}
 
-	ts.td.GetCustomerById(ctx, in.Transaction.CustomerId)
-	ts.td.GetProductById(ctx, in.Transaction.ProductId)
+	_, err := ts.td.GetCustomerById(ctx, in.Transaction.CustomerId)
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	_, err = ts.td.GetProductById(ctx, in.Transaction.ProductId)
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
 	
-	var res, err = ts.td.CreateTransaction(
+	res, err := ts.td.CreateTransaction(
 		ctx, 
 		store.Transaction{CustomerId: in.Transaction.CustomerId, ProductId: in.Transaction.ProductId, Price: in.Transaction.Price, Quantity: in.Transaction.Quantity})
 	if err != nil {
-		log.Fatal(err)
+		return nil, status.Error(codes.Internal, err.Error())
 	}
 
 	var tran = &proto.Transaction{

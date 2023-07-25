@@ -14,9 +14,9 @@ type TransactionData struct {
 }
 
 type TransactionDataInterface interface {
-	GetTransactions(ctx context.Context) ([]Transaction, error)
-	GetTransaction(ctx context.Context, id int32) (Transaction, error)
-	CreateTransaction(ctx context.Context, t Transaction) (Transaction, error)
+	GetTransactions(ctx context.Context) (*[]Transaction, error)
+	GetTransaction(ctx context.Context, id int32) (*Transaction, error)
+	CreateTransaction(ctx context.Context, t Transaction) (*Transaction, error)
 	GetProductById(ctx context.Context, id int32) (*Product, error)
 	GetCustomerById(ctx context.Context, id int32) (*Customer, error)
 }
@@ -44,7 +44,7 @@ type Customer struct {
 	Name string
 }
 
-func (td *TransactionData) GetTransactions(ctx context.Context) ([]Transaction, error) {
+func (td *TransactionData) GetTransactions(ctx context.Context) (*[]Transaction, error) {
 	var trans []Transaction
 	var created time.Time
 	rows, err := td.db.QueryContext(ctx, "SELECT id, customer_id, product_id, price, quantity, created_at FROM transactions ")
@@ -66,25 +66,23 @@ func (td *TransactionData) GetTransactions(ctx context.Context) ([]Transaction, 
 			Quantity:   transaction.Quantity,
 			CreatedAt:  created})
 	}
-	return trans, nil
+	return &trans, nil
 }
 
-func (td *TransactionData) GetTransaction(ctx context.Context, id int32) (Transaction, error) {
+func (td *TransactionData) GetTransaction(ctx context.Context, id int32) (*Transaction, error) {
 	var trans Transaction
 	var created time.Time
 	query := "SELECT * FROM transactions where id = $1"
 	err := td.db.QueryRowContext(ctx, query, id).Scan(&trans.Id, &trans.CustomerId, &trans.ProductId,
 		&trans.Price, &trans.Quantity, &created)
 	switch {
-	case err == sql.ErrNoRows:
-		log.Printf("no transaction with id %d\n", id)
 	case err != nil:
-		log.Fatalf("query error: %v\n", err)
+		return nil, err
 	default:
 		log.Print("Log, log")
 	}
 
-	return Transaction{
+	return &Transaction{
 		Id:  trans.Id,
 		CustomerId: trans.CustomerId,
 		ProductId:  trans.ProductId,
@@ -94,14 +92,14 @@ func (td *TransactionData) GetTransaction(ctx context.Context, id int32) (Transa
 	}, nil
 }
 
-func (td *TransactionData) CreateTransaction(ctx context.Context, t Transaction) (Transaction, error) {
+func (td *TransactionData) CreateTransaction(ctx context.Context, t Transaction) (*Transaction, error) {
 	insert_query := "INSERT INTO transactions(customer_id, product_id, price, quantity) VALUES( $1, $2, $3, $4 ) RETURNING id"
 
 	err := td.db.QueryRowContext(ctx, insert_query, t.CustomerId, t.ProductId, t.Price, t.Quantity).Scan(&t.Id)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
-	return Transaction{
+	return &Transaction{
 
 		Id: t.Id,
 		CustomerId: t.CustomerId,
@@ -117,11 +115,8 @@ func (td *TransactionData) GetProductById(ctx context.Context, id int32) (*Produ
 	query := "SELECT * FROM products where id = $1"
 	err := td.db.QueryRowContext(ctx, query, id).Scan(&product.Id, &product.Name)
 	switch {
-	case err == sql.ErrNoRows:
-		log.Fatalf("no product with id %d\n", id)
-		return nil, err
 	case err != nil:
-		log.Fatalf("query error: %v\n", err)
+		return nil, err
 	default:
 		log.Print("Log, log")
 	}
@@ -134,11 +129,8 @@ func (td *TransactionData) GetCustomerById(ctx context.Context, id int32) (*Cust
 	query := "SELECT * FROM customers where id = $1"
 	err := td.db.QueryRowContext(ctx, query, id).Scan(&customer.Id, &customer.Name)
 	switch {
-	case err == sql.ErrNoRows:
-		log.Fatalf("no customer with id %d\n", id)
-		return nil, err
 	case err != nil:
-		log.Fatalf("query error: %v\n", err)
+		return nil, err
 	default:
 		log.Print("Log, log")
 	}

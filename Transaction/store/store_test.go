@@ -26,7 +26,7 @@ func TestGetTransactions_success(t *testing.T) {
 
 	transactions, err := store.GetTransactions(context.Background())
 	assert.NoError(t, err)
-	assert.Len(t, transactions, 2)
+	assert.Len(t, *transactions, 2)
 
 	err = mock.ExpectationsWereMet()
 	assert.NoError(t, err)
@@ -42,7 +42,7 @@ func TestGetTransaction_success(t *testing.T) {
 	store := New(db)
 
 	rows := sqlmock.NewRows([]string{"id", "customer_id", "product_id", "price", "quantity", "created_at"}).
-		AddRow(1, 2, 3, 20.5, 15, time.Now())
+		AddRow(1, 2, 3, 20, 15, time.Now())
 		
 	query := "SELECT (.+) FROM transactions where id = \\$1"
 	mock.ExpectQuery(query).WithArgs(1).WillReturnRows(rows)

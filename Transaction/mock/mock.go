@@ -8,8 +8,8 @@ import (
 
 type MockTransactionData struct{}
 
-func (m *MockTransactionData) GetTransactions(ctx context.Context) ([]store.Transaction, error) {
-	return []store.Transaction{
+func (m *MockTransactionData) GetTransactions(ctx context.Context) (*[]store.Transaction, error) {
+	return &[]store.Transaction{
 		{
 			Id: 1,
 			CustomerId: 2,
@@ -28,8 +28,8 @@ func (m *MockTransactionData) GetTransactions(ctx context.Context) ([]store.Tran
 	}, nil
 }
 
-func (m *MockTransactionData) GetTransaction(ctx context.Context, id int32) (store.Transaction, error) {
-	return store.Transaction{
+func (m *MockTransactionData) GetTransaction(ctx context.Context, id int32) (*store.Transaction, error) {
+	return &store.Transaction{
 		Id: 1,
 		CustomerId: 1,
 		ProductId: 1,
@@ -39,10 +39,10 @@ func (m *MockTransactionData) GetTransaction(ctx context.Context, id int32) (sto
 	}, nil
 }
 
-func (m *MockTransactionData) CreateTransaction(ctx context.Context, t store.Transaction) (store.Transaction, error) {
+func (m *MockTransactionData) CreateTransaction(ctx context.Context, t store.Transaction) (*store.Transaction, error) {
 	t.Id = 1
 	t.CreatedAt = time.Now()
-	return t, nil
+	return &t, nil
 }
 
 func (m *MockTransactionData) GetProductById(ctx context.Context, id int32) (*store.Product, error) {
