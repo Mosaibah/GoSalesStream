@@ -33,10 +33,8 @@ func (ad *AnalyticsData) GetTotalSales(ctx context.Context) (*int32, error) {
 	query := "SELECT SUM(price) FROM transactions"
 	err := ad.db.QueryRow(query).Scan(&totalSales)
 	switch {
-	case err == sql.ErrNoRows:
-		log.Printf("no sales ")
 	case err != nil:
-		log.Fatalf("query error: %v\n", err)
+		return nil, err
 	default:
 		log.Print("Log, log")
 	}
@@ -49,10 +47,8 @@ func (ad *AnalyticsData) GetSalesByProduct(ctx context.Context, product_id int32
 	query := "SELECT SUM(price) FROM transactions where product_id = $1"
 	err := ad.db.QueryRow(query, product_id).Scan(&totalSales)
 	switch {
-	case err == sql.ErrNoRows:
-		log.Fatal("no sales")
 	case err != nil:
-		log.Fatal("query error: %v\n", err)
+		return nil, err
 	default:
 		log.Print("Log, log")
 	}
@@ -64,7 +60,7 @@ func (ad *AnalyticsData) GetTop5Customers(ctx context.Context) ([]Customer, erro
 	var customers []Customer
 	rows, err := ad.db.Query("SELECT c.Name, t.customer_id, SUM(t.price) FROM transactions t inner join customers c on c.Id = t.customer_id GROUP BY c.Name, t.customer_id ORDER BY SUM(t.price) desc LIMIT 5")
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 	log.Println(rows)
 	for rows.Next() {

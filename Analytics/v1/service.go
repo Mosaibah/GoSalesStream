@@ -2,11 +2,11 @@ package service
 
 import (
 	"context"
-	"log"
-
 	_ "github.com/lib/pq"
 	"analytics/store"
 	"analytics/proto"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type AnalyticsService struct{
@@ -21,7 +21,7 @@ func New(ad store.AnalyticsDataInterface) *AnalyticsService {
 func (as *AnalyticsService) GetTotalSales(ctx context.Context, in *proto.TotalSalesRequest) (*proto.TotalSales, error){
 	var total_sales, err =  as.ad.GetTotalSales(ctx)
 	if err != nil {
-		log.Fatal(err)
+		return nil, status.Error(codes.Internal, err.Error())
 	}
 	
 	return &proto.TotalSales{TotalSales: *total_sales}, nil
@@ -30,7 +30,7 @@ func (as *AnalyticsService) GetTotalSales(ctx context.Context, in *proto.TotalSa
 func (as *AnalyticsService) GetSalesByProduct(ctx context.Context, in *proto.SalesByProductRequest) (*proto.SalesByProductResponse, error){
 	var total_sales, err = as.ad.GetSalesByProduct(ctx, in.ProductId)
 	if err != nil {
-		log.Fatal(err)
+		return nil, status.Error(codes.Internal, err.Error())
 	}
 	return &proto.SalesByProductResponse{ProductId: in.ProductId, TotalSales: *total_sales}, err
 }
@@ -38,7 +38,7 @@ func (as *AnalyticsService) GetSalesByProduct(ctx context.Context, in *proto.Sal
 func (as *AnalyticsService) GetTop5Customers(ctx context.Context, in *proto.Top5CustomersRequest) (*proto.Top5CustomersResponse, error){
 	var res, err = as.ad.GetTop5Customers(ctx) // []*Customer
 	if err != nil {
-		log.Fatal(err)
+		return nil, status.Error(codes.Internal, err.Error())
 	}
 
 	var customers []*proto.Customer
