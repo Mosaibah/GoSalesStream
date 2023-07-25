@@ -27,7 +27,7 @@ GoSalesStream is a project that simulates E-commerce transactions and provides r
 
 4. Open the `/db_setup.sql` file, copy the SQL commands.
 
-5. Paste and execute the SQL commands in your SQL client to set up the database schema.
+5. Paste and execute the SQL commands in your SQL client to set up the database schema. type (option + x) to run all commands
 
 ## Deployment
 
