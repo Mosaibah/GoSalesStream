@@ -2,10 +2,10 @@
 docker pull abdulrahmantweeq/transaction-service:v5
 docker pull abdulrahmantweeq/analytics-service:v5
 
-kubectl apply -f server/namespace.yaml
+kubectl apply -f k8s/namespace.yaml
 
-kubectl apply -f server/secrets.yaml
-kubectl apply -f server/configmap.yaml
+kubectl apply -f k8s/secrets.yaml
+kubectl apply -f k8s/configmap.yaml
 
 # Transaction
 kubectl apply -f transaction/server/resourses/deployment.yaml
