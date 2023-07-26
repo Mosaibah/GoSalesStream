@@ -10,9 +10,9 @@ import (
 )
 
 func TestGetTransactions(t *testing.T) {
-	mockService := New(&mock.MockTransactionData{})
+	s := New(&mock.MockTransactionData{})
 
-	resp, err := mockService.GetTransactions(context.Background(), &proto.TransactionsRequest{})
+	resp, err := s.GetTransactions(context.Background(), &proto.TransactionsRequest{})
 
 	assert.Nil(t, err)
 
@@ -24,9 +24,9 @@ func TestGetTransactions(t *testing.T) {
 }
 
 func TestGetTransaction(t *testing.T) {
-	mockService := New(&mock.MockTransactionData{})
+	s := New(&mock.MockTransactionData{})
 
-	resp, err := mockService.GetTransaction(context.Background(), &proto.GetTransactionRequest{})
+	resp, err := s.GetTransaction(context.Background(), &proto.GetTransactionRequest{})
 
 	assert.Nil(t, err)
 
@@ -37,7 +37,7 @@ func TestGetTransaction(t *testing.T) {
 }
 
 func TestCreateTransaction(t *testing.T) {
-	mockService := New(&mock.MockTransactionData{})
+	s := New(&mock.MockTransactionData{})
 
 	req := &proto.CreateTransactionRequest{
 		Transaction: &proto.Transaction{
@@ -48,7 +48,7 @@ func TestCreateTransaction(t *testing.T) {
 		},
 	}
 
-	res, err := mockService.CreateTransaction(context.Background(), req)
+	res, err := s.CreateTransaction(context.Background(), req)
 
 	assert.NoError(t, err)
 
