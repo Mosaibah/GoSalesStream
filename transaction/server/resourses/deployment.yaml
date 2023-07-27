@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: go-sales-stream
+  name: transaction-deployment
+  labels:
+    app: transaction
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: transaction
+  template:
+    metadata:
+      labels:
+        app: transaction
+    spec:
+      containers:
+      - name: transaction
+        image: abdulrahmantweeq/transaction-service:v5
+        ports:
+        - containerPort: 9000
+        envFrom:
+          - secretRef:
+              name: db-secrets
+          - configMapRef:
+              name: db-config

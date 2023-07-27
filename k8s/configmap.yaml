@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-config
+  namespace: go-sales-stream
+data:
+  host: host.minikube.internal
+  port: "26260"
+  dbname: GoSalesStream
+  sslmode: disable
