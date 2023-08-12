@@ -8,9 +8,9 @@ import (
 	_ "github.com/lib/pq"
 	"google.golang.org/grpc"
 
-	"GoSalesStream/transaction/store"
-	"GoSalesStream/transaction/v1"
-	"GoSalesStream/transaction/proto"
+	"GoSalesStream/packages/transaction/store"
+	"GoSalesStream/packages/transaction/v1"
+	"GoSalesStream/packages/transaction/proto"
 	"google.golang.org/grpc/reflection"
 	// "fmt"
 	// "os"

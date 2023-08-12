@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"GoSalesStream/transaction/proto"
-	"GoSalesStream/transaction/mock"
+	"GoSalesStream/packages/transaction/proto"
+	"GoSalesStream/packages/transaction/mock"
 )
 
 func TestGetTransactions(t *testing.T) {

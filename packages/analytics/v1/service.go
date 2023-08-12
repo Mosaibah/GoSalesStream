@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	_ "github.com/lib/pq"
-	"GoSalesStream/analytics/store"
-	"GoSalesStream/analytics/proto"
+	"GoSalesStream/packages/analytics/store"
+	"GoSalesStream/packages/analytics/proto"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
