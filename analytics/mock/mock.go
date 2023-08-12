@@ -2,7 +2,7 @@ package mock
 
 import (
 	"context"
-	"analytics/store"
+	"GoSalesStream/analytics/store"
 )
 
 type MockAnalyticsData struct{}

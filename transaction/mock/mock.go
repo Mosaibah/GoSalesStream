@@ -3,7 +3,7 @@ package mock
 import (
 	"context"
 	"time"
-	"transaction/store"
+	"GoSalesStream/transaction/store"
 )
 
 type MockTransactionData struct{}

@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"analytics/proto"
-	"analytics/mock"
+	"GoSalesStream/analytics/proto"
+	"GoSalesStream/analytics/mock"
 	"github.com/stretchr/testify/assert"
 )
 

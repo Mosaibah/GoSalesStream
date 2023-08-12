@@ -6,8 +6,8 @@ import (
 
 	_ "github.com/lib/pq"
 	"google.golang.org/protobuf/types/known/timestamppb"
-	"transaction/store"
-	"transaction/proto"
+	"GoSalesStream/transaction/store"
+	"GoSalesStream/transaction/proto"
 	"fmt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
