@@ -1,6 +1,6 @@
 syntax = "proto3";
-package analytics;
-option go_package = "./proto";
+package GoSalesStream.analytics.v1;
+option go_package = "genproto/";
 
 
 // GetTotalSales

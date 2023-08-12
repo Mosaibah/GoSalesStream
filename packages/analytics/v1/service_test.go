@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"GoSalesStream/packages/analytics/proto"
+	analyticspbv1 "GoSalesStream/packages/proto/analytics/v1/genproto"
 	"GoSalesStream/packages/analytics/mock"
 	"github.com/stretchr/testify/assert"
 )
@@ -12,7 +12,7 @@ import (
 func TestGetTotalSales(t *testing.T) {
 	mockService := New(&mock.MockAnalyticsData{})
 
-	res, err := mockService.GetTotalSales(context.Background(), &proto.TotalSalesRequest{})
+	res, err := mockService.GetTotalSales(context.Background(), &analyticspbv1.TotalSalesRequest{})
 
 	assert.Nil(t, err)
 
@@ -22,7 +22,7 @@ func TestGetTotalSales(t *testing.T) {
 func TestGetSalesByProduct(t *testing.T) {
 	mockService := New(&mock.MockAnalyticsData{})
 
-	res, err := mockService.GetSalesByProduct(context.Background(), &proto.SalesByProductRequest{})
+	res, err := mockService.GetSalesByProduct(context.Background(), &analyticspbv1.SalesByProductRequest{})
 
 	assert.Nil(t, err)
 
@@ -32,7 +32,7 @@ func TestGetSalesByProduct(t *testing.T) {
 func TestGetTop5Customers(t *testing.T) {
 	mockService := New(&mock.MockAnalyticsData{})
 
-	res, err := mockService.GetTop5Customers(context.Background(), &proto.Top5CustomersRequest{})
+	res, err := mockService.GetTop5Customers(context.Background(), &analyticspbv1.Top5CustomersRequest{})
 
 	assert.Nil(t, err)
 

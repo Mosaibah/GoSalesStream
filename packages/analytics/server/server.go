@@ -6,7 +6,7 @@ import (
 	"google.golang.org/grpc"
 	"GoSalesStream/packages/analytics/store"
 	"GoSalesStream/packages/analytics/v1"
-	"GoSalesStream/packages/analytics/proto"
+	analyticspbv1 "GoSalesStream/packages/proto/analytics/v1/genproto"
 	"database/sql"
 	"google.golang.org/grpc/reflection"
 	// "os"
@@ -41,7 +41,7 @@ func main() {
 	grpcServer := grpc.NewServer()
 	reflection.Register(grpcServer)
 
-	proto.RegisterAnalyticsServiceServer(grpcServer, service)
+	analyticspbv1.RegisterAnalyticsServiceServer(grpcServer, service)
 
 	defer db.Close()
 

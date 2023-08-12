@@ -7,7 +7,7 @@ import (
 	_ "github.com/lib/pq"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"GoSalesStream/packages/transaction/store"
-	"GoSalesStream/packages/transaction/proto"
+	transactionpbv1 "GoSalesStream/packages/proto/transaction/v1/genproto"
 	"fmt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -15,7 +15,7 @@ import (
 )
 
 type TransactionService struct{
-	proto.TransactionServiceServer
+	transactionpbv1.TransactionServiceServer
 	td store.TransactionDataInterface 
 }
 
@@ -23,16 +23,16 @@ func New(td store.TransactionDataInterface) *TransactionService {
 	return &TransactionService{td: td}
 }
 
-func (ts *TransactionService) GetTransactions(ctx context.Context, in *proto.TransactionsRequest) (*proto.TransactionsResponse, error){
+func (ts *TransactionService) GetTransactions(ctx context.Context, in *transactionpbv1.TransactionsRequest) (*transactionpbv1.TransactionsResponse, error){
 	var d, err =  ts.td.GetTransactions(ctx)
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	var transactions []*proto.Transaction
+	var transactions []*transactionpbv1.Transaction
 	//mapping
 	for _, v := range *d {
-		var tran = &proto.Transaction{
+		var tran = &transactionpbv1.Transaction{
 			Id: v.Id, 
 			CustomerId: v.CustomerId,
 			ProductId: v.ProductId,
@@ -49,16 +49,16 @@ func (ts *TransactionService) GetTransactions(ctx context.Context, in *proto.Tra
 		}
 	}
 
-	return &proto.TransactionsResponse{Transaction: transactions}, nil
+	return &transactionpbv1.TransactionsResponse{Transaction: transactions}, nil
 }
 
-func (ts *TransactionService) GetTransaction(ctx context.Context, in *proto.GetTransactionRequest) (*proto.Transaction, error){
+func (ts *TransactionService) GetTransaction(ctx context.Context, in *transactionpbv1.GetTransactionRequest) (*transactionpbv1.Transaction, error){
 	var res, err = ts.td.GetTransaction(ctx, in.TransactionId)
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	var tran = &proto.Transaction{
+	var tran = &transactionpbv1.Transaction{
 		Id: res.Id, 
 		CustomerId: res.CustomerId,
 		ProductId: res.ProductId,
@@ -70,7 +70,7 @@ func (ts *TransactionService) GetTransaction(ctx context.Context, in *proto.GetT
 	return tran, nil
 }
 
-func (ts *TransactionService) CreateTransaction(ctx context.Context, in *proto.CreateTransactionRequest) (*proto.CreateTransactionResponse, error){
+func (ts *TransactionService) CreateTransaction(ctx context.Context, in *transactionpbv1.CreateTransactionRequest) (*transactionpbv1.CreateTransactionResponse, error){
 	
 	if in.Transaction == nil {
 		return nil, status.Error(codes.InvalidArgument, "Invalid")
@@ -105,7 +105,7 @@ func (ts *TransactionService) CreateTransaction(ctx context.Context, in *proto.C
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	var tran = &proto.Transaction{
+	var tran = &transactionpbv1.Transaction{
 		Id: res.Id, 
 		CustomerId: res.CustomerId,
 		ProductId: res.ProductId,
@@ -114,5 +114,5 @@ func (ts *TransactionService) CreateTransaction(ctx context.Context, in *proto.C
 		CreatedAt: timestamppb.New(res.CreatedAt),
 	}
 
-	return &proto.CreateTransactionResponse{Transaction: tran}, nil
+	return &transactionpbv1.CreateTransactionResponse{Transaction: tran}, nil
 }

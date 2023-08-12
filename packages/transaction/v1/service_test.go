@@ -5,14 +5,14 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"GoSalesStream/packages/transaction/proto"
+	transactionpbv1 "GoSalesStream/packages/proto/transaction/v1/genproto"
 	"GoSalesStream/packages/transaction/mock"
 )
 
 func TestGetTransactions(t *testing.T) {
 	s := New(&mock.MockTransactionData{})
 
-	resp, err := s.GetTransactions(context.Background(), &proto.TransactionsRequest{})
+	resp, err := s.GetTransactions(context.Background(), &transactionpbv1.TransactionsRequest{})
 
 	assert.Nil(t, err)
 
@@ -26,7 +26,7 @@ func TestGetTransactions(t *testing.T) {
 func TestGetTransaction(t *testing.T) {
 	s := New(&mock.MockTransactionData{})
 
-	resp, err := s.GetTransaction(context.Background(), &proto.GetTransactionRequest{})
+	resp, err := s.GetTransaction(context.Background(), &transactionpbv1.GetTransactionRequest{})
 
 	assert.Nil(t, err)
 
@@ -39,8 +39,8 @@ func TestGetTransaction(t *testing.T) {
 func TestCreateTransaction(t *testing.T) {
 	s := New(&mock.MockTransactionData{})
 
-	req := &proto.CreateTransactionRequest{
-		Transaction: &proto.Transaction{
+	req := &transactionpbv1.CreateTransactionRequest{
+		Transaction: &transactionpbv1.Transaction{
 			CustomerId: 1,
 			ProductId:  1,
 			Price: 100,
