@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "genproto",
+    srcs = [
+        "transaction.pb.go",
+        "transaction_grpc.pb.go",
+    ],
+    importpath = "GoSalesStream/packages/proto/transaction/v1/genproto",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@org_golang_google_grpc//:go_default_library",
+        "@org_golang_google_grpc//codes:go_default_library",
+        "@org_golang_google_grpc//status:go_default_library",
+        "@org_golang_google_protobuf//reflect/protoreflect:go_default_library",
+        "@org_golang_google_protobuf//runtime/protoimpl:go_default_library",
+        "@org_golang_google_protobuf//types/known/timestamppb:go_default_library",
+    ],
+)

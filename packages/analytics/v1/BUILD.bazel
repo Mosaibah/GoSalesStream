@@ -1,0 +1,26 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "analytics",
+    srcs = ["service.go"],
+    importpath = "GoSalesStream/packages/analytics/v1",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//packages/analytics/store",
+        "//packages/proto/analytics/v1/genproto",
+        "@com_github_lib_pq//:go_default_library",
+        "@org_golang_google_grpc//codes:go_default_library",
+        "@org_golang_google_grpc//status:go_default_library",
+    ],
+)
+
+go_test(
+    name = "analytics_test",
+    srcs = ["service_test.go"],
+    embed = [":analytics"],
+    deps = [
+        "//packages/analytics/mock",
+        "//packages/proto/analytics/v1/genproto",
+        "@com_github_stretchr_testify//assert:go_default_library",
+    ],
+)

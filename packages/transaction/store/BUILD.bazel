@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "store",
+    srcs = ["store.go"],
+    importpath = "GoSalesStream/packages/transaction/store",
+    visibility = ["//visibility:public"],
+    deps = ["@com_github_lib_pq//:go_default_library"],
+)
+
+go_test(
+    name = "store_test",
+    srcs = ["store_test.go"],
+    embed = [":store"],
+    deps = [
+        "@com_github_data_dog_go_sqlmock//:go_default_library",
+        "@com_github_stretchr_testify//assert:go_default_library",
+    ],
+)

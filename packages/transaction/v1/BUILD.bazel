@@ -1,0 +1,27 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "transaction",
+    srcs = ["service.go"],
+    importpath = "GoSalesStream/packages/transaction/v1",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//packages/proto/transaction/v1/genproto",
+        "//packages/transaction/store",
+        "@com_github_lib_pq//:go_default_library",
+        "@org_golang_google_grpc//codes:go_default_library",
+        "@org_golang_google_grpc//status:go_default_library",
+        "@org_golang_google_protobuf//types/known/timestamppb:go_default_library",
+    ],
+)
+
+go_test(
+    name = "transaction_test",
+    srcs = ["service_test.go"],
+    embed = [":transaction"],
+    deps = [
+        "//packages/proto/transaction/v1/genproto",
+        "//packages/transaction/mock",
+        "@com_github_stretchr_testify//assert:go_default_library",
+    ],
+)

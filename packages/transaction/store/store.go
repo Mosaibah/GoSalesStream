@@ -72,6 +72,7 @@ func (td *TransactionData) GetTransactions(ctx context.Context) (*[]Transaction,
 func (td *TransactionData) GetTransaction(ctx context.Context, id int32) (*Transaction, error) {
 	var trans Transaction
 	var created time.Time
+	log.Print("Store:", ctx, "id: ", id)
 	query := "SELECT * FROM transactions where id = $1"
 	err := td.db.QueryRowContext(ctx, query, id).Scan(&trans.Id, &trans.CustomerId, &trans.ProductId,
 		&trans.Price, &trans.Quantity, &created)

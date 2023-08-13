@@ -98,3 +98,9 @@ pkg/ccl/backupccl/restore_mid_schema_change_generated_test.go
 # Temporary directories during gomock generate
 **/gomock_reflect_*
 .DS_Store
+
+# bazel
+/bazel-bin
+/bazel-out
+/bazel-test
+/bazel-*

@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "server_lib",
+    srcs = ["server.go"],
+    importpath = "GoSalesStream/packages/transaction/server",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//packages/proto/transaction/v1/genproto",
+        "//packages/transaction/store",
+        "//packages/transaction/v1:transaction",
+        "@com_github_lib_pq//:go_default_library",
+        "@org_golang_google_grpc//:go_default_library",
+        # "@org_golang_google_grpc//reflection:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "server",
+    embed = [":server_lib"],
+    visibility = ["//visibility:public"],
+)

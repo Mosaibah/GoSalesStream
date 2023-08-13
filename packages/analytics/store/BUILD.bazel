@@ -1,0 +1,9 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "store",
+    srcs = ["store.go"],
+    importpath = "GoSalesStream/packages/analytics/store",
+    visibility = ["//visibility:public"],
+    deps = ["@com_github_lib_pq//:go_default_library"],
+)
