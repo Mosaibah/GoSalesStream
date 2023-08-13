@@ -2,7 +2,7 @@ package mock
 
 import (
 	"context"
-	"GoSalesStream/packages/analytics/store"
+	"GoSalesStream/packages/transaction/store"
 )
 
 type MockAnalyticsData struct{}
@@ -17,8 +17,8 @@ func (m *MockAnalyticsData) GetSalesByProduct(ctx context.Context, product_id in
 	return &a, nil
 }
 
-func (m *MockAnalyticsData) GetTop5Customers(ctx context.Context) ([]store.Customer, error) {
-	customers := []store.Customer{
+func (m *MockAnalyticsData) GetTop5Customers(ctx context.Context) ([]store.CustomerTotalSpent, error) {
+	customers := []store.CustomerTotalSpent{
 		{Id: 1, Name: "Abdulrahman", TotalSpent: 5050},
 		{Id: 2, Name: "Mohammed", TotalSpent: 3030},
 		{Id: 3, Name: "Ibramim", TotalSpent: 75075},

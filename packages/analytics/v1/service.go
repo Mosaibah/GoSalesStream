@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	_ "github.com/lib/pq"
-	"GoSalesStream/packages/analytics/store"
+	"GoSalesStream/packages/transaction/store"
 	analyticspbv1 "GoSalesStream/packages/proto/analytics/v1/genproto"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -11,10 +11,10 @@ import (
 
 type AnalyticsService struct{
 	analyticspbv1.AnalyticsServiceServer
-	ad store.AnalyticsDataInterface
+	ad store.TransactionDataInterface
 }
 
-func New(ad store.AnalyticsDataInterface) *AnalyticsService {
+func New(ad store.TransactionDataInterface) *AnalyticsService {
 	return &AnalyticsService{ad: ad}
 }
 

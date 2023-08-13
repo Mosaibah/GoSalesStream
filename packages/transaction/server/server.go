@@ -11,7 +11,6 @@ import (
 	"GoSalesStream/packages/transaction/store"
 	"GoSalesStream/packages/transaction/v1"
 	transactionpbv1 "GoSalesStream/packages/proto/transaction/v1/genproto"
-	// "google.golang.org/grpc/reflection"
 	// "fmt"
 	// "os"
 )
@@ -37,7 +36,6 @@ func main() {
 	grpcServer := grpc.NewServer()
 	
 	transactionpbv1.RegisterTransactionServiceServer(grpcServer, service)
-	// reflection.Register(grpcServer)
 
 	defer db.Close()
 	

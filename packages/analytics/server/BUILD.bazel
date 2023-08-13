@@ -6,11 +6,10 @@ go_library(
     importpath = "GoSalesStream/packages/analytics/server",
     visibility = ["//visibility:private"],
     deps = [
-        "//packages/analytics/store",
+        "//packages/transaction/store",
         "//packages/analytics/v1:analytics",
         "//packages/proto/analytics/v1/genproto",
         "@org_golang_google_grpc//:go_default_library",
-        "@org_golang_google_grpc//reflection:go_default_library",
     ],
 )
 

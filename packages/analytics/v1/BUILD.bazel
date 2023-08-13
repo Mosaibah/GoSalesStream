@@ -6,7 +6,7 @@ go_library(
     importpath = "GoSalesStream/packages/analytics/v1",
     visibility = ["//visibility:public"],
     deps = [
-        "//packages/analytics/store",
+        "//packages/transaction/store",
         "//packages/proto/analytics/v1/genproto",
         "@com_github_lib_pq//:go_default_library",
         "@org_golang_google_grpc//codes:go_default_library",

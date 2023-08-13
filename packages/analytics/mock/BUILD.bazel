@@ -5,5 +5,5 @@ go_library(
     srcs = ["mock.go"],
     importpath = "GoSalesStream/packages/analytics/mock",
     visibility = ["//visibility:public"],
-    deps = ["//packages/analytics/store"],
+    deps = ["//packages/transaction/store"],
 )
