@@ -13,12 +13,17 @@ type TransactionData struct {
 	db *sql.DB
 }
 
+
+
 type TransactionDataInterface interface {
 	GetTransactions(ctx context.Context) (*[]Transaction, error)
 	GetTransaction(ctx context.Context, id int32) (*Transaction, error)
 	CreateTransaction(ctx context.Context, t Transaction) (*Transaction, error)
 	GetProductById(ctx context.Context, id int32) (*Product, error)
 	GetCustomerById(ctx context.Context, id int32) (*Customer, error)
+	GetTotalSales(ctx context.Context) (*int32, error)
+	GetSalesByProduct(ctx context.Context, product_id int32) (*int32, error)
+	GetTop5Customers(ctx context.Context) ([]CustomerTotalSpent, error)
 }
 
 func New(db *sql.DB) *TransactionData {
@@ -42,6 +47,12 @@ type Product struct {
 type Customer struct {
 	Id   int32
 	Name string
+}
+
+type CustomerTotalSpent struct {
+	Id         int32
+	Name       string
+	TotalSpent int32
 }
 
 func (td *TransactionData) GetTransactions(ctx context.Context) (*[]Transaction, error) {
@@ -137,4 +148,54 @@ func (td *TransactionData) GetCustomerById(ctx context.Context, id int32) (*Cust
 	}
 
 	return &customer, nil
+}
+
+
+func (ad *TransactionData) GetTotalSales(ctx context.Context) (*int32, error) {
+	var totalSales int32
+	query := "SELECT SUM(price) FROM transactions"
+	err := ad.db.QueryRow(query).Scan(&totalSales)
+	switch {
+	case err != nil:
+		return nil, err
+	default:
+		log.Print("Log, log")
+	}
+
+	return &totalSales, nil
+}
+
+func (ad *TransactionData) GetSalesByProduct(ctx context.Context, product_id int32) (*int32, error) {
+	var totalSales int32
+	query := "SELECT SUM(price) FROM transactions where product_id = $1"
+	err := ad.db.QueryRow(query, product_id).Scan(&totalSales)
+	switch {
+	case err != nil:
+		return nil, err
+	default:
+		log.Print("Log, log")
+	}
+
+	return &totalSales, nil
+}
+
+func (ad *TransactionData) GetTop5Customers(ctx context.Context) ([]CustomerTotalSpent, error) {
+	var customers []CustomerTotalSpent
+	rows, err := ad.db.Query("SELECT c.Name, t.customer_id, SUM(t.price) FROM transactions t inner join customers c on c.Id = t.customer_id GROUP BY c.Name, t.customer_id ORDER BY SUM(t.price) desc LIMIT 5")
+	if err != nil {
+		return nil, err
+	}
+	log.Println(rows)
+	for rows.Next() {
+		customer := CustomerTotalSpent{}
+		err = rows.Scan(&customer.Name ,&customer.Id, &customer.TotalSpent)
+		if err != nil {
+			return nil, err
+		}
+		customers = append(customers, customer)
+	}
+
+	log.Printf("Log, log")
+
+	return customers, nil
 }

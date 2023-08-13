@@ -8,6 +8,7 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"GoSalesStream/packages/transaction/store"
 	transactionpbv1 "GoSalesStream/packages/proto/transaction/v1/genproto"
+	// analyticspbv1 "GoSalesStream/packages/proto/analytics/v1/genproto"
 	"fmt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -53,7 +54,6 @@ func (ts *TransactionService) GetTransactions(ctx context.Context, in *transacti
 }
 
 func (ts *TransactionService) GetTransaction(ctx context.Context, in *transactionpbv1.GetTransactionRequest) (*transactionpbv1.Transaction, error){
-	log.Print("service: id: ", &in)
 	var res, err = ts.td.GetTransaction(ctx, in.TransactionId)
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
@@ -72,7 +72,7 @@ func (ts *TransactionService) GetTransaction(ctx context.Context, in *transactio
 }
 
 func (ts *TransactionService) CreateTransaction(ctx context.Context, in *transactionpbv1.CreateTransactionRequest) (*transactionpbv1.CreateTransactionResponse, error){
-	log.Print("service: CreateTransaction: ", in.Transaction.CustomerId)
+	log.Print("service: CreateTransaction: ", in)
 	if in.Transaction == nil {
 		return nil, status.Error(codes.InvalidArgument, "Invalid")
 	}
@@ -116,4 +116,41 @@ func (ts *TransactionService) CreateTransaction(ctx context.Context, in *transac
 	}
 
 	return &transactionpbv1.CreateTransactionResponse{Transaction: tran}, nil
+}
+
+func (as *TransactionService) GetTotalSales(ctx context.Context, in *transactionpbv1.TotalSalesRequest) (*transactionpbv1.TotalSales, error){
+	var total_sales, err =  as.td.GetTotalSales(ctx)
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+	
+	return &transactionpbv1.TotalSales{TotalSales: *total_sales}, nil
+}
+
+func (as *TransactionService) GetSalesByProduct(ctx context.Context, in *transactionpbv1.SalesByProductRequest) (*transactionpbv1.SalesByProductResponse, error){
+	var total_sales, err = as.td.GetSalesByProduct(ctx, in.ProductId)
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+	return &transactionpbv1.SalesByProductResponse{ProductId: in.ProductId, TotalSales: *total_sales}, err
+}
+
+func (as *TransactionService) GetTop5Customers(ctx context.Context, in *transactionpbv1.Top5CustomersRequest) (*transactionpbv1.Top5CustomersResponse, error){
+	var res, err = as.td.GetTop5Customers(ctx) // []*CustomerTotalSpent
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	var customers []*transactionpbv1.Customer
+	//mapping
+	for _, v := range res {
+		var customer = &transactionpbv1.Customer{
+			CustomerId: v.Id,
+			CustomerName: v.Name,
+			TotalSpent: v.TotalSpent,
+		}
+		customers = append(customers, customer)
+	}
+
+	return &transactionpbv1.Top5CustomersResponse{Customer: customers}, nil
 }

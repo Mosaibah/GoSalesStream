@@ -34,8 +34,40 @@ message CreateTransactionResponse {
   Transaction transaction = 1;
 }
 
+
+// GetTotalSales
+message TotalSales {
+	int32 total_sales = 1;
+}
+message TotalSalesRequest {}
+
+// GetSalesByProduct 
+message SalesByProductRequest {
+  int32 product_id = 1;
+}
+
+message SalesByProductResponse {
+  int32 product_id = 1;
+  int32 total_sales = 2;
+}
+
+// GetTop5Customers 
+message Top5CustomersRequest {}
+message Customer {
+  int32 customer_id = 1;
+  int32 total_spent = 2;
+  string customer_name = 3;
+}
+
+message Top5CustomersResponse {
+  repeated Customer customer = 1;
+}
+
 service TransactionService {
   rpc GetTransactions (TransactionsRequest) returns (TransactionsResponse) {}
   rpc CreateTransaction (CreateTransactionRequest) returns (CreateTransactionResponse) {}
   rpc GetTransaction (GetTransactionRequest) returns (Transaction) {}
+  rpc GetTotalSales (TotalSalesRequest) returns (TotalSales) {}
+  rpc GetSalesByProduct (SalesByProductRequest) returns (SalesByProductResponse) {}
+  rpc GetTop5Customers (Top5CustomersRequest) returns (Top5CustomersResponse) {}
 }

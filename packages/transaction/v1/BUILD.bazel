@@ -7,6 +7,7 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//packages/proto/transaction/v1/genproto",
+        "//packages/proto/analytics/v1/genproto",
         "//packages/transaction/store",
         "@com_github_lib_pq//:go_default_library",
         "@org_golang_google_grpc//codes:go_default_library",
