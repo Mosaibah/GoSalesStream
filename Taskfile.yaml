@@ -1,0 +1,14 @@
+version: '3'
+
+tasks:
+  build:
+    cmds:
+      - bazel build ...
+  run-transaction:
+    cmds:
+      - bazel run packages/transaction/server
+      - echo " port 9000 !!"
+  run-analytics:
+    cmds:
+      - bazel run packages/analytics/server
+      - echo " port 9001 !!"
