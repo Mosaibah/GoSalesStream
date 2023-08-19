@@ -10,9 +10,9 @@ import (
 )
 
 func TestGetTransactions(t *testing.T) {
-	s := New(&mock.MockTransactionData{})
+	mockData := New(&mock.MockTransactionData{})
 
-	resp, err := s.GetTransactions(context.Background(), &transactionpbv1.TransactionsRequest{})
+	resp, err := mockData.GetTransactions(context.Background(), &transactionpbv1.TransactionsRequest{})
 
 	assert.Nil(t, err)
 
@@ -24,9 +24,9 @@ func TestGetTransactions(t *testing.T) {
 }
 
 func TestGetTransaction(t *testing.T) {
-	s := New(&mock.MockTransactionData{})
+	mockData := New(&mock.MockTransactionData{})
 
-	resp, err := s.GetTransaction(context.Background(), &transactionpbv1.GetTransactionRequest{})
+	resp, err := mockData.GetTransaction(context.Background(), &transactionpbv1.GetTransactionRequest{})
 
 	assert.Nil(t, err)
 
@@ -37,7 +37,7 @@ func TestGetTransaction(t *testing.T) {
 }
 
 func TestCreateTransaction(t *testing.T) {
-	s := New(&mock.MockTransactionData{})
+	mockData := New(&mock.MockTransactionData{})
 
 	req := &transactionpbv1.CreateTransactionRequest{
 		Transaction: &transactionpbv1.Transaction{
@@ -48,7 +48,7 @@ func TestCreateTransaction(t *testing.T) {
 		},
 	}
 
-	res, err := s.CreateTransaction(context.Background(), req)
+	res, err := mockData.CreateTransaction(context.Background(), req)
 
 	assert.NoError(t, err)
 
@@ -61,9 +61,9 @@ func TestCreateTransaction(t *testing.T) {
 
 
 func TestGetTotalSales(t *testing.T) {
-	mockService := New(&mock.MockTransactionData{})
+	mockData := New(&mock.MockTransactionData{})
 
-	res, err := mockService.GetTotalSales(context.Background(), &transactionpbv1.TotalSalesRequest{})
+	res, err := mockData.GetTotalSales(context.Background(), &transactionpbv1.TotalSalesRequest{})
 
 	assert.Nil(t, err)
 
@@ -71,9 +71,9 @@ func TestGetTotalSales(t *testing.T) {
 }
 
 func TestGetSalesByProduct(t *testing.T) {
-	mockService := New(&mock.MockTransactionData{})
+	mockData := New(&mock.MockTransactionData{})
 
-	res, err := mockService.GetSalesByProduct(context.Background(), &transactionpbv1.SalesByProductRequest{})
+	res, err := mockData.GetSalesByProduct(context.Background(), &transactionpbv1.SalesByProductRequest{})
 
 	assert.Nil(t, err)
 
@@ -81,9 +81,9 @@ func TestGetSalesByProduct(t *testing.T) {
 }
 
 func TestGetTop5Customers(t *testing.T) {
-	mockService := New(&mock.MockTransactionData{})
+	mockData := New(&mock.MockTransactionData{})
 
-	res, err := mockService.GetTop5Customers(context.Background(), &transactionpbv1.Top5CustomersRequest{})
+	res, err := mockData.GetTop5Customers(context.Background(), &transactionpbv1.Top5CustomersRequest{})
 
 	assert.Nil(t, err)
 

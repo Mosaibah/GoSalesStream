@@ -13,8 +13,6 @@ type TransactionData struct {
 	db *sql.DB
 }
 
-
-
 type TransactionDataInterface interface {
 	GetTransactions(ctx context.Context) (*[]Transaction, error)
 	GetTransaction(ctx context.Context, id int32) (*Transaction, error)

@@ -8,7 +8,6 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"GoSalesStream/packages/transaction/store"
 	transactionpbv1 "GoSalesStream/packages/proto/transaction/v1/genproto"
-	// analyticspbv1 "GoSalesStream/packages/proto/analytics/v1/genproto"
 	"fmt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

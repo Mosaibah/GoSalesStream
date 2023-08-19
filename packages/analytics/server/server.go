@@ -8,21 +8,12 @@ import (
 	"GoSalesStream/packages/analytics/v1"
 	analyticspbv1 "GoSalesStream/packages/proto/analytics/v1/genproto"
 	"database/sql"
-	// "os"
-	// "fmt"
+
 )
 
 func main() {
 
-	// username := os.Getenv("username")
-	// host := os.Getenv("host")
-	// port := os.Getenv("port")
-	// dbname := os.Getenv("dbname")
-	// sslmode := os.Getenv("sslmode")
-  
-	// connStr := fmt.Sprintf("postgres://%s:@%s:%s/%s?sslmode=%s&parseTime=true", username, host, port, dbname, sslmode)
 	const connStr = "postgres://root:@localhost:26260/GoSalesStream?sslmode=disable&parseTime=true"
-
 
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {

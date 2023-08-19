@@ -11,14 +11,11 @@ import (
 	"GoSalesStream/packages/transaction/store"
 	"GoSalesStream/packages/transaction/v1"
 	transactionpbv1 "GoSalesStream/packages/proto/transaction/v1/genproto"
-	// "fmt"
-	// "os"
 )
 
 func main() {
 
 	const connStr = "postgres://root:@localhost:26260/GoSalesStream?sslmode=disable&parseTime=true"
-
 
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {

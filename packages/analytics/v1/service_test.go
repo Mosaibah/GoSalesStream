@@ -10,9 +10,9 @@ import (
 )
 
 func TestGetTotalSales(t *testing.T) {
-	mockService := New(&mock.MockTransactionData{})
+	mockData := New(&mock.MockTransactionData{})
 
-	res, err := mockService.GetTotalSales(context.Background(), &analyticspbv1.TotalSalesRequest{})
+	res, err := mockData.GetTotalSales(context.Background(), &analyticspbv1.TotalSalesRequest{})
 
 	assert.Nil(t, err)
 
@@ -20,9 +20,9 @@ func TestGetTotalSales(t *testing.T) {
 }
 
 func TestGetSalesByProduct(t *testing.T) {
-	mockService := New(&mock.MockTransactionData{})
+	mockData := New(&mock.MockTransactionData{})
 
-	res, err := mockService.GetSalesByProduct(context.Background(), &analyticspbv1.SalesByProductRequest{})
+	res, err := mockData.GetSalesByProduct(context.Background(), &analyticspbv1.SalesByProductRequest{})
 
 	assert.Nil(t, err)
 
@@ -30,9 +30,9 @@ func TestGetSalesByProduct(t *testing.T) {
 }
 
 func TestGetTop5Customers(t *testing.T) {
-	mockService := New(&mock.MockTransactionData{})
+	mockData := New(&mock.MockTransactionData{})
 
-	res, err := mockService.GetTop5Customers(context.Background(), &analyticspbv1.Top5CustomersRequest{})
+	res, err := mockData.GetTop5Customers(context.Background(), &analyticspbv1.Top5CustomersRequest{})
 
 	assert.Nil(t, err)
 
