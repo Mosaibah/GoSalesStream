@@ -3,77 +3,70 @@ GoSalesStream is a project that simulates E-commerce transactions and provides r
 
 ## Prerequisites
 
-- Git
-- Docker
-- Kubernetes
-- Postman
+- Go
+- CockroachDB
 - A SQL client (e.g., DBeaver)
+- Postman
+  
 
 ## Setup
 
-1. Clone the repository:
+1. Setup DB
+   ```bash
+   cockroach start --insecure --store=node1 --listen-addr=localhost:26260 --http-addr=localhost:8089 --join=localhost:26260 --background
+   ```
+   then
+   ```bash
+   cockroach init --insecure --host=localhost:26260
+   ```
+2. Create database & seed data <br>
+ - Open the `/db_setup.sql` file, copy the SQL commands. <br>
+ - Paste and execute the SQL commands in your SQL client to set up the database schema. type (option + x) to run all commands
+
+
+3. Clone the repository:
 
     ```bash
     git clone https://github.com/Mosaibah/GoSalesStream
     ```
 
-2. Navigate into the project directory:
+4. Navigate into the project directory:
 
     ```bash
     cd GoSalesStream
     ```
 
-3. Create a new database named `GoSalesStream`.
+5. Build the project
+   ```bash
+   task build
+   ```
 
-4. Open the `/db_setup.sql` file, copy the SQL commands.
-
-5. Paste and execute the SQL commands in your SQL client to set up the database schema. type (option + x) to run all commands
-
-## Deployment
-
-1. Open a terminal and navigate to the project directory.
-
-2. Run the Kubernetes deployment script:
-
-    ```bash
-    ./server/deploy.sh
+6. Run transaction service
+    ```bash 
+    task run-transaction
     ```
-
-3. Forward the ports for the transaction service:
-
+7. Run analytics service 
+    <br> open new terminal
     ```bash
-    kubectl port-forward -n go-sales-stream svc/transaction-service 9090:80
-    ```
-    
-4. Forward the ports for the analytics service:
-
-    ```bash
-    kubectl port-forward -n go-sales-stream svc/analytics-service 9091:80
+    task run-analytics
     ```
 
 ## Testing with Postman
 
 1. Open Postman.
 
-2. Add a gRPC request for the transactions service. Import the protobuf file from `GoSalesStream/Transaction.proto`.
+2. Add a gRPC request for the transactions service. Import the protobuf file from `GoSalesStream/packages/proto/transaction/v1/transaction.proto`.
 
-3. Add another gRPC request for the analytics service. Import the protobuf file from `GoSalesStream/Analytics/analytics.proto`.
+3. Add another gRPC request for the analytics service. Import the protobuf file from `GoSalesStream/packages/proto/analytics/v1/analytics.proto`.
 
 Now, you can simulate transactions and retrieve real-time analytics using the imported gRPC requests in Postman.
 
 ## Test Data 
-### GetTransaction
-```json
-{
-    "TransactionId": 2
-}
-```
-
 
 ### GetTransaction
 ```json
 {
-    "TransactionId": 2
+    "transaction_id": 2
 }
 ```
 
@@ -82,10 +75,10 @@ Now, you can simulate transactions and retrieve real-time analytics using the im
 {
     "transaction": 
         {
-            "CustomerId": 1,
-            "ProductId": 2,
-            "Price": 122,
-            "Quantity": 45
+            "customer_id": 1,
+            "product_id": 2,
+            "price": 122,
+            "quantity": 45
         }
 }
 ```
@@ -93,7 +86,7 @@ Now, you can simulate transactions and retrieve real-time analytics using the im
 ### GetSalesByProduct
 ```json
 {
-    "ProductId": 2
+    "product_id": 2
 }
 ```
 ## System Requirements:
