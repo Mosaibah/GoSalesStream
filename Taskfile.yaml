@@ -12,3 +12,6 @@ tasks:
     cmds:
       - bazel run packages/analytics/server
       - echo " port 9001 !!"
+  test:
+    cmds:
+      - bazel test ...
