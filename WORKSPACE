@@ -44,6 +44,36 @@ http_archive(
 load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
 
 protobuf_deps()
+
+
+
+go_repository(
+    name = "com_github_data_dog_go_sqlmock",
+    importpath = "github.com/DATA-DOG/go-sqlmock",
+    commit = "b2f0b45ee89df7dfd29e32a5f9bf087791c9a61f", 
+)
+
+go_repository(
+    name = "in_gopkg_yaml_v3",
+    importpath = "gopkg.in/yaml.v3",
+    sum = "h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=",
+    version = "v3.0.1",
+)
+
+go_repository(
+    name = "com_github_davecgh_go_spew",
+    importpath = "github.com/davecgh/go-spew",
+    sum = "h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=",
+    version = "v1.1.1",
+)
+
+go_repository(
+    name = "com_github_stretchr_testify",
+    importpath = "github.com/stretchr/testify",
+    sum = "h1:w7B6lhMri9wdJUVmEZPGGhZzrYTPvgJArz7wNPgYKsk=",
+    version = "v1.8.1",
+)
+
 go_rules_dependencies()
 
 go_register_toolchains(version = "1.20.7")

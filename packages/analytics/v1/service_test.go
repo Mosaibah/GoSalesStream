@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	analyticspbv1 "GoSalesStream/packages/proto/analytics/v1/genproto"
-	 "GoSalesStream/packages/transaction/mock"
+	"GoSalesStream/packages/transaction/mock"
 	"github.com/stretchr/testify/assert"
 )
 

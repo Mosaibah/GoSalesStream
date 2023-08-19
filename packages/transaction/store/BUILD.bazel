@@ -13,7 +13,7 @@ go_test(
     srcs = ["store_test.go"],
     embed = [":store"],
     deps = [
-        "@com_github_data_dog_go_sqlmock//:go_default_library",
-        "@com_github_stretchr_testify//assert:go_default_library",
+        "@com_github_data_dog_go_sqlmock//:go-sqlmock",
+        "@com_github_stretchr_testify//assert",
     ],
 )

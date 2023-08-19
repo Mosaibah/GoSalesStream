@@ -23,6 +23,6 @@ go_test(
     deps = [
         "//packages/proto/transaction/v1/genproto",
         "//packages/transaction/mock",
-        "@com_github_stretchr_testify//assert:go_default_library",
+        "@com_github_stretchr_testify//assert",
     ],
 )
